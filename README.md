@@ -8,12 +8,19 @@ You have to install OpenFOAM in the ESI variant, version v2212: https://www.open
 
 THERE WAS A TYPO IN THE PAPER! YOU HAVE TO EXECUTE `. ./AllWmake` !
 
+You can copy and paste the following code directly into your command line, after you activated your OpenFOAM environment:
+
+
 ```
 git clone https://github.com/baw-de/HydBCsForOF.git
 cd HydBCsForOF/boundaryConditions
 . ./AllWmake
 
 ```
+
+The compilation should finish with a line which specifies the location and name of the compiled library.
+
+
 
 ## Development
 
