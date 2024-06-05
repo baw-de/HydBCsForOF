@@ -1,0 +1,69 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform 0.1;
+
+boundaryField
+{
+    xmin
+    {
+        type            inletOutlet;
+        inletValue      uniform 1.;
+        value           uniform 1;
+    }
+    xmax
+    {
+        type            inletOutlet;
+        inletValue      uniform 1.;
+        value           uniform 1;
+    }
+    ymin
+    {
+        type            omegaWallFunction;
+        value           uniform 0;
+    }
+    ymax
+    {
+        type            omegaWallFunction;
+        value           uniform 0;
+    }
+    zmin
+    {
+        type            omegaWallFunction;
+        value           uniform 0;
+    }
+    zmax
+    {
+        type            inletOutlet;
+        inletValue      uniform 1.;
+        value           uniform 1;
+    }
+    mywalls
+    {
+        type            omegaWallFunction;
+        value           uniform 0;
+    }
+    bottom
+    {
+        type            omegaWallFunction;
+        value           uniform 0;
+    }
+    column
+    {
+        type            omegaWallFunction;
+        value           uniform 0;
+    }
+}
+
+
+// ************************************************************************* //

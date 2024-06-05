@@ -1,0 +1,30 @@
+#!/bin/bash
+
+OK=0
+VERSION=0
+
+if [ -z $WM_PROJECT_VERSION ] ; then
+  WM_PROJECT_VERSION="v0000"
+fi
+VERSION=`echo $WM_PROJECT_VERSION| cut -d "v" -f 2`
+
+if [ $VERSION -eq 2212 ] ; then
+  OK=1
+else
+  if [ $VERSION -gt 2212 ] ; then
+    echo $WM_PROJECT_VERSION detected
+    echo OF version v2212 is recommended! You are using an untested version.
+  fi
+fi
+
+if [ $OK -eq 1 ] ; then
+  echo OF environment found.
+  echo Compiling ...
+  wmake
+else
+  echo OpenFOAM v2212 environment not found!
+  echo Did you forget to activate it?
+fi
+
+
+

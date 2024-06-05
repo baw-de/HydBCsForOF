@@ -1,0 +1,62 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Include the boundary conditions
+libs
+(
+    "lib_BAW_public_BCs_v2212_20240604.so"
+);
+
+
+startFrom       latestTime;
+// startFrom       startTime;
+startTime       0.;
+stopAt          endTime;
+endTime         1000.;
+
+deltaT          0.001;  // Initial time step length
+adjustTimeStep  on;     // Adapt timestep based on Courant criterion                
+
+maxCo       4.;   // Maximum Courant number. For RANS maxCo>1 is o.k., if these areas are checked later.
+maxAlphaCo  2.;   // Maximum Courant number near the water surface. For maxAlphaCo>1 set fvSolution:alpha.water:nAlphaSubCycles to maxAlphaCo+1!
+maxDeltaT   0.05; // Maximum allowed time step length
+
+writeControl    adjustableRunTime;  // Adapt timestep according to write intervals
+writeInterval   5.;                 // Write results every 5 s  
+purgeWrite      0;                  // Keep only the latest n results! (0 = all results)
+
+writeFormat     binary;
+writeCompression off;
+
+timeFormat      general;
+timePrecision   8;
+
+runTimeModifiable on;
+
+
+functions
+{                                   
+    //- Calculate and write CFL-numbers each time results are written    
+    #include "functionObjects/CFL"
+
+    //- Calculate extreme field values 
+    #include "functionObjects/fieldMinMax"
+
+    //- Calculates yPlus values on surfaces
+    #include "functionObjects/yPlus"
+
+    //- Writes out values of fields from cells nearest to specified locations (into postProcessing directory).
+    #include "functionObjects/probes"
+    
+    //- Calculates the flow rate through a specified patch by summing the flux on patch faces.
+    #include "functionObjects/patchWaterFlowRate"
+
+}
+

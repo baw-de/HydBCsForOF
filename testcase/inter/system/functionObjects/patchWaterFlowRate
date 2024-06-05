@@ -1,0 +1,53 @@
+
+xminWaterFlowRate
+{
+    type            surfaceFieldValue;
+    libs            ("libfieldFunctionObjects.so");
+
+    writeControl    adjustableRunTime;              // Choose: adjustableRunTime none outputTime runTime timeStep writeTime
+    writeInterval   0.5;                              // How often to write according to writeControl            
+    
+    // timeStart       400;                         // Activation time - defaults to -VGREAT
+    // timeEnd         600;                         // De-activation time - defaults to VGREAT
+
+    writeFields     false;                          // Write the region field values
+    log             false;                          // Write data to standard output
+
+    regionType      patch;
+    name            xmin;
+    
+    fields
+    (
+        phi
+    );
+    operation       weightedSum;
+    weightField     alpha.water;
+}
+
+
+xmaxWaterFlowRate
+{
+    type            surfaceFieldValue;
+    libs            ("libfieldFunctionObjects.so");
+
+    writeControl    adjustableRunTime;              // Choose: adjustableRunTime none outputTime runTime timeStep writeTime
+    writeInterval   0.5;                              // How often to write according to writeControl            
+    
+    // timeStart       400;                         // Activation time - defaults to -VGREAT
+    // timeEnd         600;                         // De-activation time - defaults to VGREAT
+
+    writeFields     false;                          // Write the region field values
+    log             false;                          // Write data to standard output
+
+    regionType      patch;
+    name            xmax;
+    
+    fields
+    (
+        phi
+    );
+    operation       weightedSum;
+    weightField     alpha.water;
+}
+
+// ************************************************************************* //

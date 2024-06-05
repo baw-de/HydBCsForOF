@@ -1,0 +1,107 @@
+// blockMesh example for 
+// "Thorenz, 2024:Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM"
+// 10th International Symposium on Hydraulic Structures 
+
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale 1.;
+
+// Define outer boundaries
+xmin              0; 
+xmax             50;
+ymin              2; 
+ymax             38;
+zmin             -1; 
+zmax              7; 
+
+// Base mesh edge length before refinements
+basesize         1.; 
+
+
+
+// ************************************************************************** //
+vertices        
+(
+    ( $xmin $ymin $zmin )
+    ( $xmax $ymin $zmin )
+    ( $xmax $ymax $zmin )
+    ( $xmin $ymax $zmin )
+    ( $xmin $ymin $zmax )
+    ( $xmax $ymin $zmax )
+    ( $xmax $ymax $zmax )
+    ( $xmin $ymax $zmax ) 
+);
+
+
+// Compute number of cells per direction from dimensions and basesize
+IX               #eval{ floor(($xmax-($xmin))/$basesize+0.5) };
+IY               #eval{ floor(($ymax-($ymin))/$basesize+0.5) };
+IZ               #eval{ floor(($zmax-($zmin))/$basesize+0.5) };
+
+blocks          
+(
+    // Resolution of the coarsest grid level
+    hex (0 1 2 3 4 5 6 7) ($IX $IY $IZ) simpleGrading (1 1 1)
+);
+
+edges           
+(
+);
+
+
+boundary
+(
+
+    xmin
+    {
+        type    wall;
+        faces   ((0 4 7 3));
+    }
+
+    xmax
+    {
+        type    wall;
+        faces   ((2 6 5 1));
+    }
+
+    ymin
+    {
+        type    wall;
+        faces   ((1 5 4 0));
+    }
+
+    ymax
+    {
+        type    wall;
+        faces   ((3 7 6 2));
+    }
+
+    zmin
+    {
+        type    wall;
+        faces   ((0 3 2 1));
+    }
+
+    zmax
+    {
+        type    wall;
+        faces   ((4 5 6 7));
+    }
+);
+
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+
+

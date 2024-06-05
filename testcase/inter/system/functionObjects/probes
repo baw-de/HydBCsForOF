@@ -1,0 +1,28 @@
+
+probes
+{
+    type            probes;
+    libs            ("libsampling.so");
+
+    writeControl    adjustableRunTime;              // Choose: adjustableRunTime none outputTime runTime timeStep writeTime
+    writeInterval   1.0;                            // How often to write according to writeControl            
+
+    // timeStart       400;                // Activation time - defaults to -VGREAT
+    // timeEnd         600;                // De-activation time - defaults to VGREAT
+
+    fields
+    (
+        p_rgh
+        p_rghMean
+        U
+        UMean
+    );
+
+    probeLocations
+    (
+        (0.01 7.5 2.5)
+//      (6.01 7.5 2.5)
+    );
+}
+
+// ************************************************************************* //

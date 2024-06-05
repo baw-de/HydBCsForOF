@@ -1,0 +1,52 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default Euler;
+}
+
+gradSchemes
+{
+}
+
+divSchemes
+{
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+fluxRequired
+{
+    default         no;
+}
+
+geometry
+{
+    // Use specialised method for high-aspect ratio cells. Sometimes crashes.
+    type        stabilised;  // basic stabilised highAspectRatio averageNeighbour
+    minAspect   10;     // when to start blending lower-order method
+    maxAspect   100;    // when to use lower-order method only
+    relax       0.1;
+}
+
+// ************************************************************************* //

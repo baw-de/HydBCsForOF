@@ -1,0 +1,10 @@
+// Calculate Courant number for each cell
+
+CFL
+{
+    type        CourantNo;
+    libs        ("libfieldFunctionObjects.so");
+    executeControl      timeStep;  // adjustableRunTime none outputTime runTime timeStep writeTime
+    executeInterval     1;
+    writeControl        writeTime;
+}

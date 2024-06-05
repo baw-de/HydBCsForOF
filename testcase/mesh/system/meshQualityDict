@@ -1,0 +1,91 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      meshQualityDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+//- Maximum non-orthogonality allowed. Set to 180 to disable.
+maxNonOrtho 70; //65
+
+//- Max skewness allowed. Set to <0 to disable.
+maxBoundarySkewness 30.; //30
+maxInternalSkewness 10.; //10
+
+//- Max concaveness allowed. Is angle (in degrees) below which concavity
+//  is allowed. 0 is straight face, <0 would be convex face.
+//  Set to 180 to disable.
+maxConcave 80.; // 80
+
+//- Minimum pyramid volume. Is absolute volume of cell pyramid.
+//  Important for snapping performance vs. cell quality
+//  Set to a sensible fraction of the smallest cell volume expected.
+//  Set to very negative number (e.g. -1E30) to disable.
+minVol 0.0;  // Do not accept negative volume
+
+//- Minimum quality of the tet formed by the face-centre
+//  and variable base point minimum decomposition triangles and
+//  the cell centre.  Set to very negative number (e.g. -1E30) to
+//  disable.
+//     <0 = inside out tet,
+//      0 = flat tet
+//      1 = regular tet
+minTetQuality -0.00001; // 1.e-9
+
+//- Minimum face area. Set to <0 to disable.
+minArea 1.e-22;   // -1.
+
+//- Minimum face twist. Set to <-1 to disable. dot product of face normal
+//- and face centre triangles normal
+minTwist 0.1; // 0.05
+
+//- minimum normalised cell determinant
+//- 1 = hex, <= 0 = folded or flattened illegal cell
+minDeterminant 0.002;  // 0.001
+
+//- minFaceWeight (0 -> 0.5)
+minFaceWeight 0.02;  // 0.05
+
+//- minVolRatio (0 -> 1)
+minVolRatio 0.02; // 0.01
+
+//must be >0 for Fluent compatibility
+minTriangleTwist -0.000000001; 
+
+// From source code. 1.0: Perfectly flat ; <0: Ignore
+minFaceFlatness  0.5;
+
+//- if >0 : preserve single cells with all points on the surface if the
+// resulting volume after snapping (by approximation) is larger than
+// minVolCollapseRatio times old volume (i.e. not collapsed to flat cell).
+// If <0 : delete always.
+minVolCollapseRatio -1.; // 0.5
+
+// Advanced
+//- Number of error distribution iterations
+    nSmoothScale 4;
+//- amount to scale back displacement at error points
+errorReduction 0.75;
+
+// Optional : some meshing phases allow usage of relaxed rules.
+// See e.g. addLayersControls::nRelaxedIter.
+
+// In the provided example, these are used for the layer generation phase!
+relaxed
+{
+  maxNonOrtho 90.; // 80
+  maxBoundarySkewness 60.; // 50
+  maxInternalSkewness 20.; // 10
+  maxConcave 100.; // 80
+  minTetQuality -1.0;
+  minTwist 0.02; 
+  minDeterminant -0.001; 
+  minFaceWeight 0.0; 
+  minVolRatio   0.01;
+  minFaceFlatness 0.2;  
+}
+
+// ************************************************************************* //

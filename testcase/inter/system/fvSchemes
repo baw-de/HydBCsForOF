@@ -1,0 +1,80 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default          Euler;                                 // Transient, 1st order implicit, bounded. Typical for RANS models.
+ // default          CrankNicolson 0.5;                     // Transient, 2nd order implicit, bounded. Typical for LES/DES models.
+                                                            // ... 0.0=pure Euler scheme (less precise, more stable), 1.0=pure CN scheme (more precise, less stable).
+                                                            // ... User Guide recommendation=0.9
+}
+
+gradSchemes
+{
+    default             Gauss linear;                       // 2nd order unlimited, Finite Volume, central differencing.
+ // default             cellMDLimited Gauss linear 1.0;     // 2nd order limited by cell center gradient, Multi-Dimension = by component. 1.0=blending@100% limited. Least diffusive.
+ // default             cellLimited   Gauss linear 1.0;     // 2nd order limited by cell center gradient. More diffusive.
+ // default             faceMDLimited Gauss linear 1.0;     // 2nd order limited by face gradient, Multi-Dimension. More diffusive.
+ // default             faceLimited   Gauss linear 1.0;     // 2nd order limited by face gradient. Most diffusive.
+                                                       
+    grad(U)             cellMDLimited Gauss linear 1.0;     // 2nd order limited, explanations above.
+    grad(k)             cellMDLimited Gauss linear 1.0;     // 2nd order limited, explanations above.
+    grad(omega)         cellMDLimited Gauss linear 1.0;     // 2nd order limited, explanations above.
+}
+
+
+divSchemes
+{
+ // div(rhoPhi,U)       Gauss upwind;                                           // 1st order bounded, HIGHLY DIFFUSIVE for U, not recommended.
+    div(rhoPhi,U)       Gauss limitedLinear  1.0;                               // 2nd order limited by cell gradient.  
+ // div(rhoPhi,U)       Gauss linearUpwind  cellMDLimited Gauss linear 1.0;     // 2nd order limited by cell gradient.
+
+    div(phi,alpha)      Gauss vanAlbada;                                        // 2nd order limited
+    div(phirb,alpha)    Gauss linear;                                           // 2nd order unlimited.
+
+    div(phi,k)          Gauss Minmod;                                           // 2nd order limited
+    div(phi,omega)      Gauss Minmod;                                           // 2nd order limited
+
+    div(rhoPhi,k)          Gauss Minmod;                                        // 2nd order limited
+    div(rhoPhi,omega)      Gauss Minmod;                                        // 2nd order limited
+
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;                           // 2nd order unlimited (for turbulence model).
+}
+
+laplacianSchemes
+{
+ // Parameter specifies amount of explicit non-orthogonal corrections for distorted cells. High values only on good meshes!!!
+ // default             Gauss linear limited corrected 0.;    // Good stability: Gradient not corrected.
+ // default             Gauss linear limited corrected 0.333; // Stability and accuracy o.k.: Explicit correction up to 50% of face normal value.
+    default             Gauss linear limited corrected 0.5;   // Good accuracy: Explicit correction up to 100% of face normal value.
+ // default             Gauss linear limited corrected 1.0;   // Best accuracy: Explicit correction without limit (= fully "Gauss linear corrected").
+}
+
+interpolationSchemes
+{
+    default             linear;   // OpenFOAM's default method for interpolation, typically from cell center to face center.
+}
+
+snGradSchemes
+{
+ // Parameter specifies amount of explicit non-orthogonal corrections for distorted cells. High values only on good meshes!!!
+ // default             limited corrected 0.;    // Good stability: Gradient not corrected.
+ // default             limited corrected 0.333; // Stability and accuracy o.k.: Explicit correction up to 50% of face normal value.
+    default             limited corrected 0.5;   // Good accuracy: Explicit correction up to 100% of face normal value.
+ // default             limited corrected 1.0;   // Best accuracy: Explicit correction without limit (= fully "Gauss linear corrected").
+}
+
+
+wallDist
+{
+    method              meshWave;                           // OpenFOAM's default method for wall distance calculation.
+    nRequired           false;                              // Optional entry enabling the calculation of the normal-to-wall field.
+}
+
+// ************************************************************************* //

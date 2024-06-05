@@ -1,0 +1,95 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+
+boundaryField
+{
+    xmin
+    {
+        // Compute the velocity, which is required for the flowrate
+        type            flowRateWaterVelocity;
+        // flowRateWater   30.0;                  // Constant flowrate [m³/s]
+        
+        // Flow rate, could be variable in time ([s] [m³/s]):
+        flowRateWater   table (
+                          (0.     30.)    
+                          (10.    30.)
+                          (100.   30.)
+                        );                      
+
+        // ADVANCED ENTRIES:
+        // relaxationTime 0.0;        // Relaxation time, set to Eigenperiod of upstream waves if wavy surface is observed. 0=OFF  
+        // alphaLowerThreshold -999.; // Exclude cells with alphaLowerThreshold < alpha.water < alphaUpperThreshold.
+        // alphaUpperThreshold 0.999; //   Default: Stop movement for alpha.water<0.999
+
+        value           uniform (0 0 0); 
+    }
+    
+    xmax 
+    {
+        // For prescribed pressure or water level
+        type            pressureInletOutletVelocity; // Alternative: fluxCorrectedVelocity,  pressureNormalInletOutletVelocity, ...
+        value           uniform (0 0 0);
+    }
+    
+    ymin
+    {
+        type            slip;
+    }
+    
+    ymax
+    {
+        type            slip;
+    }
+    
+    zmin
+    {
+        type            slip;
+    }
+    
+    zmax
+    {
+        // For prescribed pressure or water level
+        type            pressureInletOutletVelocity; // Alternativ: fluxCorrectedVelocity,  pressureNormalInletOutletVelocity, ...
+        value           uniform (0 0 0);
+    }
+
+    mywalls
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    
+    bottom
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+        
+        
+    column
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+        
+ 
+
+    oldInternalFaces
+    {
+        type            slip;
+    }
+}
+
+// ************************************************************************* //

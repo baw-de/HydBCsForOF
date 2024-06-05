@@ -1,0 +1,27 @@
+#!/bin/bash
+
+## Cleanup
+foamCleanPolyMesh
+foamListTimes -rm
+rm -rf VTK postProcessing
+
+## Generate base mesh
+blockMesh
+
+## Check input file for snappyHexMesh
+snappyHexMesh -dry-run
+
+if [ $? -eq 0 ] ; then
+   ## Make new mesh
+   snappyHexMesh
+
+   ## Check the generated mesh and provide files for quality visualization in Paraview
+   checkMesh  -writeAllFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 3
+   checkMesh  -writeAllFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 2
+   checkMesh  -writeAllFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 1
+   
+fi 
+
+
+
+

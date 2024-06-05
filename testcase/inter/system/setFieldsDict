@@ -1,0 +1,76 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+defaultFieldValues
+(
+    // Global values (water and air)
+    volScalarFieldValue alpha.water 0.
+    volScalarFieldValue p_rgh 1.
+    volVectorFieldValue U (0. 0. 0.) 
+);
+
+
+regions
+(
+    // Water
+    boxToCell
+    {
+        box (-9999. -9999.  -9999.) (9999. 9999. 4.);
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.water 1.
+            volVectorFieldValue U (0. 0. 0.)
+        );
+    }
+
+
+
+
+
+
+    // sphereToCell
+    // {                     
+    //     centre            ( 5. 5. 15.);
+    //     radius            2.;
+    //     fieldValues
+    //     (
+    //         volScalarFieldValue alpha.water 1
+    //     );
+    // }
+
+    // surfaceToCell
+    // {
+    //     file               "wuerfel.stl";
+    //     outsidePoints      ((5 5 5));
+    //     includeCut         1;
+    //     includeInside      1;
+    //     includeOutside     0;
+    //     nearDistance       0.;
+    //     curvature          9.;
+    //     fieldValues
+    //     (
+    //         volScalarFieldValue alpha.water 0.
+    //     );
+    // }
+
+    //fieldToCell
+    //{
+    //   field alpha.water;
+    //   min 0.0;
+    //   max 0.5;
+    //   fieldValues
+    //   (
+    //      volVectorFieldValue U (0.0 0. 0)
+    //   );
+    //}
+
+);
+
+// ************************************************************************* //

@@ -1,0 +1,90 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.water;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1.;
+
+
+boundaryField
+{
+    xmin
+    {
+        // For prescribed flow rate of water with variable height.
+        type flowRateWaterAlpha;      // Behaves like zeroGradient with additions to avoid bubbles or rain.
+ 
+        // ADVANCED ENTRIES:
+        // pressureThreshold  10000.; // For all boundary cells with pressure p above pressureThreshold alpha.water=1
+        //                                   is prescribed. This avoids bubbles in the region with p>pressureThreshold. Default: 1.e99
+        // sharpen             0.001; // Low values increase bubble risk, high values "bend" the water surface. Default: 0.001
+        // alphaLowerThreshold 0.001; // For all cells with alpha<alphaLowerThreshold set alpha.water=0.0.  Avoids "rain". Default: 0.001
+        // alphaUpperThreshold 0.999; // For all cells with alpha>alphaUpperThreshold set alpha.water=1.0.  Avoids "bubbles". Default: 0.999
+
+        value           uniform 0.;
+    }
+
+    xmax
+    {
+        type            waterLevel_alpha_prgh;  // Behaves like zeroGradient at an outlet and like a Dirichlet-BC at an inlet.
+        mode            ratingCurveTable;       // Could be: singleValue, ratingCurveTable, ratingCurveFunction or timeSeries
+        // data           11.41;                // Set the water level directly or supply a table for functions
+
+        // Table for dependency between flowrate Q and water level h ([m^3/s] [m]) or between time t and h  ([s] [m])
+        data     table  (
+            (0    4.)
+            (2.6  4.25)
+            (7.6  4.5)
+            (20   5.0)
+            (40   5.5)
+        );                 
+
+        // OPTIONAL ENTRIES:
+        // flowRateMultiplier    1.0;           // For "slice" models: Multiply Q with flowRateMultiplier before evaluating h
+
+        value           uniform 1.;             // Initial value for alpha
+    }
+
+    ymin
+    {
+        type            zeroGradient;
+    }
+
+    ymax
+    {
+        type            zeroGradient;
+    }
+    
+    
+    zmin
+    {
+        type            zeroGradient;
+    }
+    
+    zmax
+    {
+        type            waterLevel_alpha_prgh;  // Behaves like zeroGradient at an outlet and like a Dirichlet-BC at an inlet.
+        mode            singleValue;            // singleValue, ratingCurveTable or timeSeriesTable  
+        data            5.;                   // set the waterlevel directly or supply a table for functions
+        value           uniform 1.;             // Initial value for alpha
+    }
+
+    mywalls {type zeroGradient;}
+    bottom  {type zeroGradient;}
+    column  {type zeroGradient;}
+
+    
+    // Wird nach Gitter-Manipulationen oft gebraucht!
+    oldInternalFaces
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //

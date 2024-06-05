@@ -1,0 +1,34 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      turbulenceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType  RAS; 
+
+
+RAS
+{
+    RASModel        kOmegaSST;
+    // RASModel        kOmegaSSTSAS;
+
+    kOmegaSSTCoeffs
+    {
+        delta       cubeRootVol;
+      
+        cubeRootVolCoeffs
+        {
+            deltaCoeff  1;
+        }
+    }
+
+    turbulence      on;
+    printCoeffs     on;
+}
+
+
+

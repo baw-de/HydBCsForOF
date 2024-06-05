@@ -1,0 +1,16 @@
+// Output field extrema values
+
+fieldMinMaxValues
+{
+   type fieldMinMax;
+   libs ("libfieldFunctionObjects.so");
+   writeToFile no;
+   log yes;
+   location yes;
+   mode magnitude;
+   fields ( U Co k omega );
+}
+
+
+
+// ************************************************************************* //

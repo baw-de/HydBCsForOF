@@ -1,0 +1,83 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1.e-11;
+
+boundaryField
+{
+    xmin
+    {
+        // For prescribed velocity
+        type            fixedFluxPressure;      // Alternative zeroGradient
+    }
+
+    xmax
+    {
+        type            waterLevel_alpha_prgh;  // Behaves like zeroGradient at an outlet and like a Dirichlet-BC at an inlet.
+        mode            ratingCurveTable;       // Choose: singleValue, ratingCurveTable, ratingCurveFunction or timeSeries  
+        // data           4.5;                  // set the water level directly or supply a table for functions
+                                                   
+        // Table for dependency between flowrate Q and water level h ([m^3/s] [m]) or between time t and h  ([s] [m])
+        data     table  (                      
+            (0    4.)
+            (2.6  4.25)
+            (7.6  4.5)
+            (20   5.0)
+            (40   5.5)
+        );                      
+        
+        // OPTIONAL ENTRIES:
+        // flowRateMultiplier    1.0;           // For "slice" models: Multiply Q with flowRateMultiplier before evaluating h 
+        // For inbound flow:
+        // dynamicPressureCorrection  0;        // Enable or disable dynamic pressure correction (default: 1)
+        // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time (default: endTime/5), recommended: Eigenperiod of upstream waves 2*L_upstream/sqrt(g*h)
+        // For pressure level: 
+        // refPoint (123. 345. 567.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
+        // refValue 0.;                         // Pressure value at refPoint
+        
+        value           uniform 0.;             // Initial value
+    }
+
+    ymin
+    {
+        type            zeroGradient;
+    }
+
+    ymax
+    {
+        type            zeroGradient;
+    }
+
+    zmin
+    {
+        type            zeroGradient;
+    }
+
+    zmax
+    {
+        type            waterLevel_alpha_prgh;
+        mode            singleValue;            // singleValue, ratingCurveTable or timeSeriesTable  
+        data            5.;                    // set the waterlevel directly or supply a table for functions
+        value           uniform 1.;             // Initial value
+    }
+
+    mywalls  { type zeroGradient; }
+    bottom   { type zeroGradient; }
+    column   { type zeroGradient; }
+
+    oldInternalFaces
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
