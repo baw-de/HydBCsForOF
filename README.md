@@ -12,6 +12,7 @@ THERE WAS A TYPO IN THE PAPER! YOU HAVE TO EXECUTE `. ./AllWmake` !
 git clone https://github.com/baw-de/HydBCsForOF.git
 cd HydBCsForOF/boundaryConditions
 . ./AllWmake
+
 ```
 
 ## Development
