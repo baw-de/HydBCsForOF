@@ -5,7 +5,7 @@
  * 
  * Publication
  *   Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM',
- *   10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: 10.3929/ethz-b-000675949
+ *   10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: 10.3929/ethz-b-000675949 
  *
  * License
  *    GPL v3
@@ -271,10 +271,10 @@ void Foam::flowRateWaterVelocityFvPatchVectorField::updateCoeffs()
         vectorField U_Innen {this->patchInternalField()};
         // For outbound flow, add transversal velocity components to the BC
         U_Boundary  =  U_Boundary + mag(n) * ( U_Innen - (U_Innen & patch().nf()) * patch().nf());        
-    } else {
-        // For inbound flow take into account thresholds
-        U_Boundary = U_Boundary * (pos(neg(alphap-alphaLowerThreshold_)+pos(alphap-alphaUpperThreshold_)-SMALL)+SMALL);
-    }
+    } 
+
+    // Take into account thresholds
+    U_Boundary = U_Boundary * (pos(neg(alphap-alphaLowerThreshold_)+pos(alphap-alphaUpperThreshold_)-SMALL)+SMALL);
 
     fixedValueFvPatchVectorField::operator==
         (
