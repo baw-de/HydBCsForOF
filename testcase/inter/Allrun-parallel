@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cp 0/bak/* 0
+setFields
+decomposePar
+mpirun -np 16 interFoam -parallel
+
+#------------------------------------------------------------------------------
