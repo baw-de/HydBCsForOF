@@ -2,7 +2,6 @@
 // "Thorenz, 2024:Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM"
 // 10th International Symposium on Hydraulic Structures 
 
-
 FoamFile
 {
     version     2.0;
@@ -10,9 +9,8 @@ FoamFile
     class       dictionary;
     object      blockMeshDict;
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-scale 1.;
+// ***************** Begin of user parameters ******************* //
 
 // Define outer boundaries
 xmin              0; 
@@ -25,9 +23,8 @@ zmax              7;
 // Base mesh edge length before refinements
 basesize         1.; 
 
+// ***************** End of user parameters ******************* //
 
-
-// ************************************************************************** //
 vertices        
 (
     ( $xmin $ymin $zmin )
