@@ -13,7 +13,7 @@ castellatedMesh true;
 snap            true;
 addLayers       true;
 
-// Geometry. Definition of all surfaces. All surfaces are of class searchableSurface.
+// Geometry. Definition of all surfaces.
 
 // Surfaces are used
 // - to specify refinement for any mesh cell intersecting it
@@ -133,7 +133,6 @@ castellatedMeshControls
         isotrop_level2  {mode inside; levels ((1E99 2));}
         isotrop_level3  {mode inside; levels ((1E99 3));}
         isotrop_level4  {mode inside; levels ((1E99 4));}
-        isotrop_level5  {mode inside; levels ((1E99 5));}
 
         // Specific refinements
         column   {mode distance; levels ((3. 2));}
@@ -142,25 +141,12 @@ castellatedMeshControls
         water_A {mode inside; levels ((1E15 0)); levelIncrement  (0 0 (0 0 2));} // if (0<=level<=0) then refine in z 2 times
         water_B {mode inside; levels ((1E15 0)); levelIncrement  (1 1 (0 0 1));} // if (1<=level<=1) then refine in z 1 times
 
-
-        /*
-        gapRefinementGeometry
-        {
-          mode        inside;
-          levels      ((0.0 0));  // Dummy entry
-          gapLevel    (4 0 10);   // Guarantee 4 cells in all gaps
-          gapMode     outside;    // If the gap is on the inside/outside of the surface
-          gapSelf     false;      // Disable any refinement from same surface
-        }
-        */
     }
     
     // Mesh selection
     // ~~~~~~~~~~~~~~
 
-    // After refinement patches get added for all refinementSurfaces and
-    // all cells intersecting the surfaces get put into these patches. The
-    // section reachable from the locationInMesh is kept.
+    // The section reachable from the locationInMesh is kept.
     // NOTE: This point should never be on a face, always inside a cell, even
     // after refinement.
 
@@ -239,9 +225,9 @@ addLayersControls
     // Definition of near wall layers. Omitted here.
     layers
     {
-//          mywalls     { nSurfaceLayers 4; firstLayerThickness 0.05; thickness 0.5; }
-//          column      { nSurfaceLayers 4; firstLayerThickness 0.05; thickness 0.5; }
-//          bottom      { nSurfaceLayers 4; firstLayerThickness 0.05; thickness 0.5; }
+//          mywalls     { nSurfaceLayers 3; firstLayerThickness 0.1; thickness 0.5; }
+//          column      { nSurfaceLayers 3; firstLayerThickness 0.1; thickness 0.5; }
+//          bottom      { nSurfaceLayers 3; firstLayerThickness 0.1; thickness 0.5; }
     }
   
     // Expansion factor for layer mesh
