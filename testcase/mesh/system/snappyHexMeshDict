@@ -153,8 +153,8 @@ castellatedMeshControls
     // Find my domain: What is "inside"?
     locationInMesh (20. 6  6);
 
-    // Leak search: If geometry is leaky, place this at a point that should be cut away
-    locationsOutsideMesh (( 9999.  9999. 9999.));
+    // Leak search: If geometry is leaky, place this at a point in the mesh that should have been cut away
+    // locationsOutsideMesh (( 9999.  9999. 9999.));
     
     // Whether any faceZones (as specified in the refinementSurfaces)
     // are only on the boundary of corresponding cellZones or also allow
