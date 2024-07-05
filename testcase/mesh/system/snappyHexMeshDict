@@ -85,7 +85,7 @@ castellatedMeshControls
     // (since balancing is quite expensive)
     // Expressed as fraction of perfect balance (= overall number of cells /
     // nProcs). 0=balance always.
-    maxLoadUnbalance 0.10;
+    maxLoadUnbalance 0.50;
 
     features ();
 
