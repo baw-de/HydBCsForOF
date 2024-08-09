@@ -16,7 +16,7 @@ boundaryField
 {
     xmin
     {
-        // For prescribed velocity
+        // For prescribed flowrate or velocity in U
         type            fixedFluxPressure;      // Alternative zeroGradient
     }
 
