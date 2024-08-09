@@ -6,7 +6,7 @@
 
 The numerical background is described in this paper, which we kindly ask you to cite if you are using **HydBCsForOF**:  
 Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM',
-10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949         ](https://doi.org/10.3929/ethz-b-000675949         )
+10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949          ](https://doi.org/10.3929/ethz-b-000675949          )
 
 ## Installation
 
@@ -46,7 +46,7 @@ This will change into the computation folder, copy and initialize the variable f
 
 If you want to use this example as a blueprint for your own cases, it is recommendable to copy the whole "inter" folder as a starting point. In the example, "xmin" is defined as an inlet boundary for a given flowrate while "xmax" and "zmax" are defined as a outlet boundaries with a given water level. If your boundaries have different names, you have to adapt all files in the inter/0/bak folder. For each file, all boundary name entries (xmin,xmax, ... , column) must be changed to reflect the names of your own setup. 
 
-If in your own exmple a patch named "inlet" should be your inlet and you if you have no patch "xmin", you can simply change "xmin" to "inlet" in all files of inter/0/bak and change the values according to your needs. If your example has patch a "outlet" which you want to act as a fixed water level instead of "xmax", just exchange "xmax" with "outlet" in all files and adapt the values where needed.
+If in your own exmple a patch named "inlet" should be your inlet and you if you have no patch "xmin", you can simply change the string "xmin" to "inlet" in all files of inter/0/bak and change the values according to your needs. If your example has patch a "outlet" which you want to act as a fixed water level instead of "xmax", just exchange "xmax" with "outlet" in all files and adapt the values where needed.
   
 Take care: The entries for e.g. "xmin" (or any other boundary) in one of the files must fit to the entries for "xmin" (or any other boundary) in the other files. Entries for a boundary must be changed in all files, not only in one!
 
