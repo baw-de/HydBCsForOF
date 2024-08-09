@@ -6,7 +6,7 @@
 
 The numerical background is described in this paper, which we kindly ask you to cite if you are using **HydBCsForOF**:  
 Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM',
-10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949       ](https://doi.org/10.3929/ethz-b-000675949       )
+10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949        ](https://doi.org/10.3929/ethz-b-000675949        )
 
 ## Installation
 
@@ -50,7 +50,7 @@ If in your own exmple a patch named "inlet" should be your inlet and you if you 
   
 Take care: The entries for e.g. "xmin" (or any other boundary) in one of the files must fit to the entries for "xmin" (or any other boundary) in the other files. Entries for a boundary must be changed in all files, not only in one!
 
-You can use the entries in all files for 
+You can use the entries in all files of inter/0/bak for 
 
 - "xmin" as an example for a fixed flowrate
 - "xmax" as an example for a fixed water level
