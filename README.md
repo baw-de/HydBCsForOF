@@ -6,7 +6,7 @@
 
 The numerical background is described in this paper, which we kindly ask you to cite if you are using **HydBCsForOF**:  
 Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM',
-10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949        ](https://doi.org/10.3929/ethz-b-000675949        )
+10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949         ](https://doi.org/10.3929/ethz-b-000675949         )
 
 ## Installation
 
@@ -40,7 +40,7 @@ decomposePar
 mpirun -np 16 interFoam -parallel
 ```
 
-This will change into the computation folder, initialize the variable fields, decompose the case into 16 subdomains and run the testcase on 16 CPU cores in parallel. The results can be checked by loading 'results.foam' in Paraview already while the job is running.
+This will change into the computation folder, copy and initialize the variable field files, decompose the case into 16 subdomains and run the testcase on 16 CPU cores in parallel. The results can be checked by loading 'results.foam' in Paraview already while the job is running.
 
 ## Transfer to your own example
 
