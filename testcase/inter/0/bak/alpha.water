@@ -32,6 +32,7 @@ boundaryField
 
     xmax
     {
+        // Water level boundary condition
         type            waterLevel_alpha_prgh;  // Behaves like zeroGradient at an outlet and like a Dirichlet-BC at an inlet.
         mode            ratingCurveTable;       // Could be: singleValue, ratingCurveTable, ratingCurveFunction or timeSeries
         // data           11.41;                // Set the water level directly or supply a table for functions
@@ -69,6 +70,7 @@ boundaryField
     
     zmax
     {
+        // Water level boundary condition
         type            waterLevel_alpha_prgh;  // Behaves like zeroGradient at an outlet and like a Dirichlet-BC at an inlet.
         mode            singleValue;            // singleValue, ratingCurveTable or timeSeriesTable  
         data            5.;                   // set the waterlevel directly or supply a table for functions
