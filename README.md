@@ -6,7 +6,7 @@
 
 The numerical background is described in this paper, which we kindly ask you to cite if you are using **HydBCsForOF**:  
 Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM',
-10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949   ](https://doi.org/10.3929/ethz-b-000675949   )
+10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949    ](https://doi.org/10.3929/ethz-b-000675949    )
 
 ## Installation
 
@@ -42,11 +42,19 @@ mpirun -np 16 interFoam -parallel
 
 This will change into the computation folder, initialize the variable fields, decompose the case into 16 subdomains and run the testcase on 16 CPU cores in parallel. The results can be checked by loading 'results.foam' in Paraview already while the job is running.
 
+## Transfer to your own example
 
+If you want to use this example as a blueprint for your own cases, it is recommendable to copy the whole "inter" folder as a starting point. In the example, "xmin" is defined as an inlet boundary for a given flowrate while "xmax" and "zmax" are defined as a outlet boundaries with a given water level. If your boundaries have different names, you have to adapt all files in the inter/0/bak folder. For each file, all boundary name entries (xmin,xmax, ... , column) must be changed to reflect your own setup. Take care: The entries for e.g. "xmin" in all variable files belong to each other and must be changed in all files, not only in one!
 
 ## Development
 
 **HydBCsForOF** is developed at the [Federal Waterways Engineering and Research Institute](https://www.baw.de/). Updates will be incorporated here in the repository by BAW. 
+
+## History of changes
+
+### 2024-08-09
+- Updated inter/system/fvSchemes to use linearUpwind. More stable for div(rhoPhi,U).
+- Updated README.md with further explanations
 
 
 ## License 
