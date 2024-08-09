@@ -23,7 +23,7 @@ gradSchemes
  // default             faceMDLimited Gauss linear 1.0;     // 2nd order limited by face gradient, Multi-Dimension. More diffusive.
  // default             faceLimited   Gauss linear 1.0;     // 2nd order limited by face gradient. Most diffusive.
                                                        
-    grad(U)             cellMDLimited Gauss linear 1.0;     // 2nd order limited, explanations above.
+ // grad(U)             cellMDLimited Gauss linear 1.0;     // 2nd order limited, explanations above.
     grad(k)             cellMDLimited Gauss linear 1.0;     // 2nd order limited, explanations above.
     grad(omega)         cellMDLimited Gauss linear 1.0;     // 2nd order limited, explanations above.
 }
@@ -32,8 +32,8 @@ gradSchemes
 divSchemes
 {
  // div(rhoPhi,U)       Gauss upwind;                                           // 1st order bounded, HIGHLY DIFFUSIVE for U, not recommended.
-    div(rhoPhi,U)       Gauss limitedLinear  1.0;                               // 2nd order limited by cell gradient.  
- // div(rhoPhi,U)       Gauss linearUpwind  cellMDLimited Gauss linear 1.0;     // 2nd order limited by cell gradient.
+ // div(rhoPhi,U)       Gauss limitedLinear  1.0;                               // 2nd order limited by cell gradient.  
+    div(rhoPhi,U)       Gauss linearUpwind  grad(U);                            // 2nd order limited by cell gradient.
 
     div(phi,alpha)      Gauss vanAlbada;                                        // 2nd order limited
     div(phirb,alpha)    Gauss linear;                                           // 2nd order unlimited.
