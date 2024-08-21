@@ -68,13 +68,13 @@ You can use the entries in all files of inter/0/bak for
 
 In order to facilitate the setting of boundary conditions, we provide a simple Bash script. First copy your mesh (i.e. the polyMesh folder) to the folder inter/constant. On the command line, change to the inter folder. There you execute the script 
 
-...
+```
 ./setBoundaries.sh
-...
+```
 
 This will guide you through the process of setting the boundary conditions for your case.
 
-Take care! This is just a basic setup. Check i.e. in 0/bak the provided values for the turbulence model at your inlet: Are they reasonable? Adjust as necessary and copy the files to 0 before going on!
+Take care: This is just a basic setup. Check i.e. in the files in 0/bak the provided values for the turbulence model at your inlet: Are they reasonable? Adjust as necessary and copy the files to 0 before going on! Maybe you also want to or have to adjust some other, more special, entries.
 
 ## Development
 
