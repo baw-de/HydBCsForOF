@@ -44,6 +44,16 @@ This will change into the computation folder, copy and initialize the variable f
 
 ## Transfer to your own example
 
+Basic knowledge in OpenFOAM is required to setup examples based on these boundary conditions. It is necessary that you know  how to
+
+- generate a mesh with blockMesh and snappyHexMesh or any other tool of your choice
+- setup an interFoam case (apply boundary conditions for all boundaries for all field variables!)
+- set the initial conditions
+- run the case
+- post-process the results
+
+before going on.
+
 If you want to use this example as a blueprint for your own cases, it is recommendable to copy the whole "inter" folder as a starting point. In the example, "xmin" is defined as an inlet boundary for a given flowrate while "xmax" and "zmax" are defined as outlet boundaries with a given water level. If your boundaries have different names, you have to adapt all files in the inter/0/bak folder. For each file, all boundary name entries (xmin,xmax, ... , column) must be changed to reflect the names of your own setup. 
 
 If in your own exmple a patch named "inlet" should be your inlet and you if you have no patch "xmin", you can simply change the string "xmin" to "inlet" in all files of inter/0/bak and change the values according to your needs. If your example has patch a "outlet" which you want to act as a fixed water level instead of "xmax", just exchange "xmax" with "outlet" in all files and adapt the values where needed. If your case has multiple walls, you can duplicate the entries for "column" in all files and change the name from "column" to your choice as needed.
@@ -55,6 +65,8 @@ You can use the entries in all files of inter/0/bak for
 - "xmin" as an example for a fixed flowrate
 - "xmax" as an example for a fixed water level
 - "column" as an example for a wall
+
+
 
 
 ## Development
