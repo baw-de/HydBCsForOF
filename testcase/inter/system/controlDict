@@ -21,8 +21,8 @@ startTime       0.;
 stopAt          endTime;
 endTime         1000.;
 
-deltaT          0.001;  // Initial time step length
-adjustTimeStep  on;     // Adapt timestep based on Courant criterion                
+deltaT          0.01;  // Initial time step length
+adjustTimeStep  on;    // Adapt timestep based on Courant criterion                
 
 maxCo       4.;   // Maximum Courant number. For RANS maxCo>1 is o.k., if these areas are checked later.
 maxAlphaCo  2.;   // Maximum Courant number near the water surface. For maxAlphaCo>1 set fvSolution:alpha.water:nAlphaSubCycles to maxAlphaCo+1!
