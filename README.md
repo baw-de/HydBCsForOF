@@ -28,7 +28,7 @@ The compilation should finish with a line which specifies the location and name 
 
 ## Example
 
-A simple example is provided in the directory 'testcase'. Further details are given in the accompanying paper (see above).
+A simple example is provided in the directory 'testcase'. Further details on the example are given in the accompanying paper (see above).
 
 For parallel execution, you can execute the following commands, starting from the testcase folder:
 
@@ -47,7 +47,7 @@ This will change into the computation folder, copy and initialize the variable f
 Basic knowledge in OpenFOAM is required to setup examples based on these boundary conditions. It is necessary that you know  how to
 
 - generate a mesh with blockMesh and snappyHexMesh or any other tool of your choice
-- setup an interFoam case (apply boundary conditions for all boundaries for all field variables!)
+- setup an interFoam case (i.e. how to apply boundary conditions for all boundaries for all field variables)
 - set the initial conditions
 - run the case
 - post-process the results
