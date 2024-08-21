@@ -66,9 +66,15 @@ You can use the entries in all files of inter/0/bak for
 - "xmax" as an example for a fixed water level
 - "column" as an example for a wall
 
-In order to facilitate the setting of boundary conditions, we provide a simple Bash script. First your mesh (polyMesh folder) to the folder inter/constant. On the command line, change to the inter folder. There you execute the script "./setBoundaries.sh". This will guide you through the process of setting the boundary conditions for your case.
+In order to facilitate the setting of boundary conditions, we provide a simple Bash script. First copy your mesh (i.e. the polyMesh folder) to the folder inter/constant. On the command line, change to the inter folder. There you execute the script 
 
-Take care! This is just a basic setup. Check i.e. in 0/bak the provided values for the turbulence model at your inlet: Are they reasonable? Adjust as necessary and copy the files to 0 before goind on!
+...
+./setBoundaries.sh
+...
+
+This will guide you through the process of setting the boundary conditions for your case.
+
+Take care! This is just a basic setup. Check i.e. in 0/bak the provided values for the turbulence model at your inlet: Are they reasonable? Adjust as necessary and copy the files to 0 before going on!
 
 ## Development
 
