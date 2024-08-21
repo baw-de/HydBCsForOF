@@ -1,0 +1,20 @@
+
+        // data     table  (
+        //                (0   2.41)
+        //                (100 2.41)
+        //          );                          // table for dependency between Q and h  or between t and h   
+        
+        // OPTIONAL ENTRIES:
+
+        // flowRateMultiplier    1.0;           // For "slice" models: Multiply Q with flowRateMultiplier before evaluating h 
+
+        // For inbound flow:
+        // dynamicPressureCorrection  1;        // Enable or disable dynamic pressure correction (default: 1)
+        // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time (default: endTime/5), recommended: Eigenperiod of upstream waves 2*L_upstream/sqrt(g*h)
+        // For pressure level: 
+        // refPoint (123. 345. 567.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
+        // refValue 0.;                         // Pressure value at refPoint
+        
+        value           uniform 1.;             // Initial value
+    }
+

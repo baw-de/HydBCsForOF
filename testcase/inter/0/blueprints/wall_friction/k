@@ -1,0 +1,4 @@
+    {
+        type            kqRWallFunction;
+        value           uniform 0.;
+    }

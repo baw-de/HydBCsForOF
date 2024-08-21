@@ -1,4 +1,10 @@
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  BAW-Blaupause                         |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
@@ -11,6 +17,16 @@ FoamFile
 dimensions      [0 2 -1 0 0 0 0];
 
 internalField   uniform 0;
+
+/*
+    Einlauf: Vorgegebener Volumenstrom: calculated
+    Auslauf: Vorgegebener Wasserstand (am Auslauf): calculated
+    Wand: nutkRoughWallFunction (Vorgabe einer Sandrauheit) oder calculated (slip)
+
+    Wenn unklar: calculated
+
+    ACHTUNG: Den "Deckel" wie vorgegebenen Wasserstand behandeln, wenn er offen sein soll (sonst als Wand)!
+*/
 
 boundaryField
 {
@@ -49,33 +65,29 @@ boundaryField
         type            calculated;
         value           uniform 0;
     }
-
     
-    mywalls
+    pfeiler
     {
         type            nutkRoughWallFunction;
-        Ks              uniform 0.01;  // roughness height = sand-grain roughness (0 for smooth walls), in m
+        Ks              uniform 0.005;  // roughness height = sand-grain roughness (0 for smooth walls), in m
         Cs              uniform 0.5;    // roughness constant, default 0.5
         value           uniform 0.0;
     }
     
-    bottom
+    "sohle_.*"
     {
         type            nutkRoughWallFunction;
-        Ks              uniform 0.05;  // roughness height = sand-grain roughness (0 for smooth walls), in m
-        Cs              uniform 0.5;    // roughness constant, default 0.5
-        value           uniform 0.0;
-    }
-      
-    column
-    {
-        type            nutkRoughWallFunction;
-        Ks              uniform 0.01;  // roughness height = sand-grain roughness (0 for smooth walls), in m
+        Ks              uniform 0.005;  // roughness height = sand-grain roughness (0 for smooth walls), in m
         Cs              uniform 0.5;    // roughness constant, default 0.5
         value           uniform 0.0;
     }
       
 
+    // Wird nach Gitter-Manipulationen oft gebraucht!
+    oldInternalFaces
+    {
+        type            zeroGradient;
+    }
 }
 
 // ************************************************************************* //

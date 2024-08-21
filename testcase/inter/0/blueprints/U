@@ -1,0 +1,99 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  BAW-Blaupause                         |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+/*
+    Einlauf: Vorgegebener Volumenstrom: flowRateWaterVelocity
+    Auslauf: Vorgegebener Wasserstand am Auslauf: pressureInletOutletVelocity
+    Wand: Mit Reibung: fixedValue, ohne Reibung: slip
+
+    ACHTUNG: Den "Deckel" wie vorgegebenen Wasserstand behandeln, wenn er offen sein soll (sonst als Wand)!
+*/
+
+boundaryField
+{
+    xmin
+    {
+        // Ermittelt die noetige Geschwindigkeit, um bei gegebenem Wasserstand den Durchfluss zu erreichen
+        type            flowRateWaterVelocity;
+        flowRateWater   482.5;                  // Zufluss konstant [m³/s]
+        
+        // Zufluss über Zeit variabel ([s] [m³/s]):
+        // flowRateWater   table (
+        //                  (0.0  482.5)    
+        //                  (20.0  600.)
+        //                  (60.0   0.0)   
+        //                );                      
+
+        // ADVANCED ENTRIES:
+        // relaxationTime 0.0;        // Relaxation time, set to Eigenperiod of upstream waves if wavy surface is observed.
+        alphaLowerThreshold  0.001;   // Allow flow for cells with alpha.water < 0.001
+        alphaUpperThreshold  0.999;   // Allow flow for cells with alpha.water > 0.999
+
+        // Initialisierung der Randbedingung [m/s][m/s][m/s]
+        value           uniform (5 0 0); 
+    }
+    
+    xmax 
+    {
+        type            pressureInletOutletVelocity; // Alternativ: fluxCorrectedVelocity,  pressureNormalInletOutletVelocity, ...
+        value           uniform (0 0 0);
+    }
+    
+    ymin
+    {
+        type            slip;
+    }
+    
+    ymax
+    {
+        type            slip;
+    }
+    
+    zmin
+    {
+        type            slip;
+    }
+    
+    zmax
+    {
+        type            pressureInletOutletVelocity; // Alternativ: fluxCorrectedVelocity,  pressureNormalInletOutletVelocity, ...
+        value           uniform (0 0 0);
+    }
+
+    pfeiler
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+        
+    "sohle_.*"
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+ 
+    // Wird nach Gitter-Manipulationen oft gebraucht!
+    oldInternalFaces
+    {
+        type            slip;
+    }
+}
+
+// ************************************************************************* //

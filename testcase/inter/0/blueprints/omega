@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  BAW-Blaupause                         |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform 0.01;
+
+/*
+    Einlauf: Vorgegebener Volumenstrom und freier Wsp: inletOutlet (fester Wert beim Einstroemen, freier Transport nach aussen, 
+        Wert kann z.B. abgeschaetzt werden mit: sqrt(k/L), L: charakteristische Laenge)
+    Einlauf: Vorgegebener Volumenstrom und fester Wsp: inletOutlet (fester Wert beim Einstroemen, freier Transport nach aussen, 
+        Wert kann z.B. abgeschaetzt werden mit: sqrt(k/L), L: charakteristische Laenge)
+    Auslauf: Vorgegebener Wasserstand (am Auslauf): inletOutlet (fester Wert beim Einstroemen, freier Transport nach aussen)
+    Wand: omegaWallFunction (mit Rauheit) oder zeroGradient (slip)
+
+    Wenn unklar: fixedValue oder zeroGradient
+
+    ACHTUNG: Den "Deckel" wie vorgegebenen Wasserstand behandeln, wenn er offen sein soll (sonst als Wand)!
+*/
+
+boundaryField
+{
+    xmin
+    {
+        type            inletOutlet;
+        inletValue      uniform 0.0025;
+        value           uniform 0.0025;
+    }
+    
+    xmax
+    {
+        type            inletOutlet;
+        inletValue      uniform 0.0025;
+        value           uniform 0.0025;
+    }
+    
+    ymin
+    {
+        type            zeroGradient;
+    }
+    
+    ymax
+    {
+        type            zeroGradient;
+    }
+    
+    zmin
+    {
+        type            zeroGradient;
+    }
+    
+    zmax
+    {
+        type            inletOutlet;
+        inletValue      uniform 0.0025;
+        value           uniform 0.0025;
+    }
+    
+    pfeiler
+    {
+        type            omegaWallFunction;
+        value           uniform 0.;
+    }
+    
+    "sohle_.*"
+    {
+        type            omegaWallFunction;
+        value           uniform 0.;
+    }
+    
+    // Wird nach Gitter-Manipulationen oft gebraucht!
+    oldInternalFaces
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //

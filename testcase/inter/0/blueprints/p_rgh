@@ -1,0 +1,104 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  BAW-Blaupause                         |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1.e-11;
+
+/*
+    Einlauf: Vorgegebener Volumenstrom und freier WSP: fixedFluxPressure oder zeroGradient
+    Einlauf: Vorgegebener Wasserstand: waterLevel_alpha_prgh, identisch zu Vorgabe in alpha.water
+    Auslauf: Vorgegebener Wasserstand: waterLevel_alpha_prgh, identisch zu Vorgabe in alpha.water
+    Wand: zeroGradient 
+
+    Wenn unklar: zeroGradient
+
+    ACHTUNG: Den "Deckel" zmax wie vorgegebenen Wasserstand behandeln, wenn er offen sein soll (sonst als Wand)!
+*/
+
+boundaryField
+{
+    xmin
+    {
+        type            fixedFluxPressure;      // Alternative zeroGradient
+    }
+
+    xmax
+    {
+        type            waterLevel_alpha_prgh;
+        mode            singleValue;            // singleValue, ratingCurveTable, ratingCurveFunction or timeSeries  
+        data            2.41;                   // set the waterlevel directly or supply a table for functions
+
+        // data     table  (
+        //                (0   2.41)
+        //                (100 2.41)
+        //          );                          // table for dependency between Q and h  or between t and h   
+        
+        // OPTIONAL ENTRIES:
+
+        // flowRateMultiplier    1.0;          // For "slice" models: Multiply Q with flowRateMultiplier before evaluating h 
+
+        // For inbound flow:
+        // dynamicPressureCorrection  1;        // Enable or disable dynamic pressure correction (default: 1)
+        // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time (default: endTime/5), recommended: Eigenperiod of upstream waves 2*L_upstream/sqrt(g*h)
+        // For pressure level: 
+        // refPoint (123. 345. 567.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
+        // refValue 0.;                         // Pressure value at refPoint
+        
+        value           uniform 1.;             // Initial value
+    }
+
+    ymin
+    {
+        type            zeroGradient;
+    }
+
+    ymax
+    {
+        type            zeroGradient;
+    }
+
+    zmin
+    {
+        type            zeroGradient;
+    }
+
+    zmax
+    {
+        type            waterLevel_alpha_prgh;
+        mode            singleValue;            // singleValue, ratingCurveTable or timeSeriesTable  
+        data            2.41;                   // set the waterlevel directly or supply a table for functions
+        value           uniform 1.;             // Initial value
+    }
+
+    pfeiler
+    {
+        type            zeroGradient;
+    }
+    
+    "sohle_.*"
+    {
+        type            zeroGradient;
+    }
+    
+    // Wird nach Gitter-Manipulationen oft gebraucht!
+    oldInternalFaces
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
