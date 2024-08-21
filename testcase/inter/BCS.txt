@@ -1,6 +1,0 @@
-xmin
-xmax
-zmax
-mywalls
-bottom
-column
