@@ -40,7 +40,7 @@ decomposePar
 mpirun -np 16 interFoam -parallel
 ```
 
-This will change into the computation folder, copy and initialize the variable field files, decompose the case into 16 subdomains and run the testcase on 16 CPU cores in parallel. The results can already be checked while the job is running by loading 'results.foam' into Paraview (remember to switch from "Reconstructed Case" to "Decomposed Case" if you are running in parallel. And vice versa for serial runs.) 
+This will change into the computation folder, copy and initialize the variable field files, decompose the case into 16 subdomains and run the testcase on 16 CPU cores in parallel. The results can already be checked while the job is running by loading 'results.foam' into Paraview (remember to switch from "Reconstructed Case" to "Decomposed Case" as you are running in parallel!) 
 
 ## Transfer to your own example
 
@@ -66,14 +66,18 @@ You can use the entries in all files of inter/0/bak for
 - "xmax" as an example for a fixed water level
 - "column" as an example for a wall
 
+In order to facilitate the setting of boundary conditions, we provide a simple Bash script. First your mesh (polyMesh folder) to the folder inter/constant. On the command line, change to the inter folder. There you execute the script "./setBoundaries.sh". This will guide you through the process of setting the boundary conditions for your case.
 
-
+Take care! This is just a basic setup. Check i.e. in 0/bak the provided values for the turbulence model at your inlet: Are they reasonable? Adjust as necessary and copy the files to 0 before goind on!
 
 ## Development
 
 **HydBCsForOF** is developed at the [Federal Waterways Engineering and Research Institute](https://www.baw.de/). Updates will be incorporated here in the repository by BAW. 
 
 ## History of changes
+
+### 2024-08-21
+- Provide a script for a simple, basic setup of boundary conditions.
 
 ### 2024-08-20
 - Updated inter/system/fvSchemes to use GAMG preconditioner. Faster in some cases. 
