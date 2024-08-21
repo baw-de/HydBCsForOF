@@ -16,10 +16,10 @@ if [ $? -eq 0 ] ; then
    snappyHexMesh
 
    ## Check the generated mesh and provide files for quality visualization in Paraview
-   checkMesh  -writeAllFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 3
-   checkMesh  -writeAllFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 2
-   checkMesh  -writeAllFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 1
-   
+   checkMesh  -writeAllFields -writeAllSurfaceFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 3
+   checkMesh  -writeAllFields -writeAllSurfaceFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 2
+   checkMesh  -writeAllFields -writeAllSurfaceFields -allGeometry -allTopology -meshQuality -writeSets "vtk" -time 1
+  
 fi 
 
 
