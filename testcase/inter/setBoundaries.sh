@@ -138,8 +138,6 @@ if   [  $((ERROR)) -eq 0 ] ; then
   echo "to the 0 folder before running setFields!"
   echo "######################################################"
   echo
-  
-  rm BCS.txt
 else
   echo
   echo "###############################################"
@@ -147,6 +145,8 @@ else
   echo "###############################################"
   echo
 fi
+
+rm BCS.txt
 
 
 
