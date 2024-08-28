@@ -11,6 +11,10 @@ echo
 
 NUMBERBCS=0
 
+if [ -e BCS.txt ]  ; then
+  rm BCS.txt
+fi
+
 while IFS= read -r LINE; do   
     if [ `echo $LINE| grep "(" | wc -l ` -gt 0 ] ; then
       if [ $NUMBERBCS -eq 0 ] ; then
