@@ -11,7 +11,7 @@ FoamFile
 // Include the boundary conditions
 libs
 (
-    "lib_BAW_public_BCs_v2212_20240604.so"
+    "lib_BAW_public_BCs_v2212_20240926.so"
 );
 
 
