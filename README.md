@@ -83,6 +83,7 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 ## History of changes
 
 ### 2024-11-14
+- Fixed waterLevelXXXX FATAL ERROR, if inbound flow occurs and user parameters are missing.
 - Update comments on "waterLevelXXXX stop"
 - Update snappyHexMeshDict parameters to enhance snapping performance 
 
