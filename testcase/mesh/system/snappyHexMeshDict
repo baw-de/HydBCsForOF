@@ -166,12 +166,12 @@ castellatedMeshControls
 snapControls
 {
     //- Number of patch smoothing iterations before finding correspondence to surface
-    nSmoothPatch 5; // "Smoothing iteration xx"
+    nSmoothPatch 3; // "Smoothing iteration xx"
 
     // Optional: number of smoothing iterations for internal points on refinement interfaces. This will 
     // reduce non-orthogonality on refinement interfaces (0<nSmoothInternal<=nSmoothPatch).
     // nSmoothInternal 0;
-    nSmoothInternal 5;
+    nSmoothInternal 3;
 
     //- Relative distance for points to be attracted by surface feature point
     //  or edge. True distance is this factor times local maximum edge length.
@@ -179,7 +179,7 @@ snapControls
 
     //- Number of feature edge snapping iterations.
     //  Leave out altogether to disable.
-    nFeatureSnapIter 10; // "Morph iteration xx"
+    nFeatureSnapIter 30; // "Morph iteration xx"
 
     //- Number of mesh displacement relaxation iterations to smooth the mesh in each "Morph iteration xx": "Smoothing displacement ..." "Iteration xxx"
     nSolveIter 10; // Number of smoothing steps within snapping. Defines also the width of mesh displacements from the boundary.
