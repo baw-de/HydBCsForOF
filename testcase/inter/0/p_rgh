@@ -36,7 +36,7 @@ boundaryField
         );                      
 
         // MANDATORY FOR INBOUND FLOW:
-        // dynamicPressureCorrection  0;        // 0: Water level will not be exact. Level can drop down to energy height. 
+        // dynamicPressureCorrection  0;        // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
                                                 // 1: Apply dynamic pressure correction, to better match the desired water level. Can lead to long waves.
         // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time for dynamic pressure correction to dampen waves (default: endTime/5)
                                                        // Recommended: Set to Eigenperiod of long waves 2*L/sqrt(g*h)
