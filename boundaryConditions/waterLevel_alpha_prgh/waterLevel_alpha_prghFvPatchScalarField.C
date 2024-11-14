@@ -392,17 +392,28 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
          Info << "this->db().time().value() " << this->db().time().value() << endl;
          Info << "lastTime_ " << lastTime_ << endl;
       #endif
-         
-      // Calculate dynamic pressure stabilization for inbound flow.
-      dynamic_pressure_  = neg(phip)*0.5*rhop*pow(phip/(patch().magSf()+SMALL),2.0);
+
+
+      // Calculate dynamic pressure stabilization field for inbound flow.
+      dynamic_pressure_ = neg(phip)*0.5*rhop*pow(phip/(patch().magSf()+SMALL),2.0);
       
       // Check for inbound flow and required user settings
-      if (( fabs(gSum(neg(phip)*phip*alphap)) > fabs(gSum(pos(phip)*phip*alphap)+SMALL) ) && ( dynamicPressureCorrection_ < SMALL)) {
+      if ( fabs(gSum(neg(phip)*phip*alphap)) > fabs(gSum(pos(phip)*phip*alphap)+SMALL) ) {
+        if ( dynamicPressureCorrection_ < -SMALL) {
            FatalErrorIn ("waterLevel_alpha_p_rgh:")
-              << "Inbound flow obsered on patch: "  << this->patch().name() << nl << nl
+              << "Inbound flow observed on patch: "  << this->patch().name() << nl << nl
               << "You must set dynamicPressureCorrection and dynamicPressureCorrectionRelaxationTime "
               << "in file p_rgh according to your needs. Think about it carefully! "  
               << exit(FatalError);
+        }              
+
+        if (( dynamicPressureCorrection_ > SMALL) && ( relaxationTime_ < SMALL))  {
+           FatalErrorIn ("waterLevel_alpha_p_rgh:")
+              << "Inbound flow observed on patch: "  << this->patch().name() << nl << nl
+              << "You must set dynamicPressureCorrectionRelaxationTime "
+              << "in file p_rgh according to your needs. Think about it carefully! "  
+              << exit(FatalError);
+        }              
       }
 
       // Do this once per timestep.  
@@ -415,14 +426,7 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
         if ( dynamicPressureCorrection_ > SMALL) {
         
           // Calculate dynamic pressure stabilization correction for inbound flow.
-          mean_water_dynamic_pressure = dynamicPressureCorrection_ * gSum(   (alphap)  * patch().magSf() * dynamic_pressure_) / ( gSum(    (alphap)  * patch().magSf()) + SMALL);
-
-          if (relaxationTime_ < SMALL) {
-            // Try to estimate a useful relaxation time.
-            relaxationTime_ = db().time().endTime().value()/5.;
-            // relaxationTime_=this->db().time().deltaT().value()*1000.;
-            // mesh.C() & g.value()/mag(g.value())))*g.value()/mag(g.value())).value();
-          }
+          mean_water_dynamic_pressure = dynamicPressureCorrection_ * gSum( (alphap) * patch().magSf() * dynamic_pressure_) / ( gSum( (alphap) * patch().magSf()) + SMALL);
 
           // Evaluate relaxation factor 
           relax = min(max(this->db().time().deltaT().value()/relaxationTime_, SMALL), 1.0);
@@ -441,14 +445,13 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
         }
       }
 
+
       // Compute pressure field at the boundary
       //  - Desired hydrostatic profile
       //  - Apply offset necessary to match the reference pressure
       //  - totalPressure stabilization for inbound flow
       //  - correction for totalPressure stabilization for inbound flow
-
      
-//            rhop*((g.value()&patch().Cf())-(g.value()&waterlevelPoint))
       
       physical_pressure_ =
         ( 
