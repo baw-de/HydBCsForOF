@@ -34,13 +34,19 @@ boundaryField
             (20   5.0)
             (40   5.5)
         );                      
-        
+
+        // MANDATORY FOR INBOUND FLOW:
+        // dynamicPressureCorrection  0;        // 0: Water level will not be exact. Level can drop down to energy height. 
+                                                // 1: Apply dynamic pressure correction, to better match the desired water level. Can lead to long waves.
+        // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time for dynamic pressure correction to dampen waves (default: endTime/5)
+                                                       // Recommended: Set to Eigenperiod of long waves 2*L/sqrt(g*h)
+
         // OPTIONAL ENTRIES:
-        // flowRateMultiplier    1.0;           // For "slice" models: Multiply Q with flowRateMultiplier before evaluating h 
-        // For inbound flow:
-        // dynamicPressureCorrection  0;        // Enable or disable dynamic pressure correction (default: 1)
-        // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time (default: endTime/5), recommended: Eigenperiod of upstream waves 2*L_upstream/sqrt(g*h)
-        // For pressure level: 
+
+        // For slice models:
+        // flowRateMultiplier    1.0;           // Multiply Q with flowRateMultiplier before evaluating h 
+
+        // Set pressure level: 
         // refPoint (123. 345. 567.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
         // refValue 0.;                         // Pressure value at refPoint
         
