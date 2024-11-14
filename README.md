@@ -82,6 +82,10 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 ## History of changes
 
+### 2024-11-14
+- Update comments on "waterLevelXXXX stop"
+- Update snappyHexMeshDict parameters to enhance snapping performance 
+
 ### 2024-09-26
 - Update waterLevelXXXX to stop, if inbound flow occurs and user parameters are missing.
 - Update some comments
