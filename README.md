@@ -111,7 +111,7 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 **HydBCsForOF** is distributed by the [Federal Waterways Engineering and Research Institute](https://www.baw.de/) 
 and is freely available and open source, licensed under the 
-[GNU General Public License 3](https://www.gnu.org/licenses/gpl.html). No 
+[GNU General Public License 3](https://www.gnu.org/licenses/gpl.html).  
 See [LICENSE.txt](LICENSE.txt) for details.
 
 
