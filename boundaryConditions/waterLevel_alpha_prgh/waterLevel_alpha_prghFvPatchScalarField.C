@@ -24,7 +24,6 @@
 #include "fvMesh.H"
 
 
-
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 Foam::scalar Foam::waterLevel_alpha_prghFvPatchScalarField::t() const
@@ -53,9 +52,10 @@ waterLevel_alpha_prghFvPatchScalarField
     flowRateMultiplier_(1.0),
     refValue_(0.0),
     refPoint_(vector::zero),
-    relaxationTime_(-1.0),
-    dynamicPressureCorrection_(-1.0),
+    dynamicPressureCorrectionRelaxationTime_(-1.0),
+    dynamicPressureCorrection_(1.0),
     lastTime_(0.0),
+    waterStored_(0.0),
     mean_water_dynamic_pressure_old_(0.0)
     
 {
@@ -79,9 +79,10 @@ waterLevel_alpha_prghFvPatchScalarField
     flowRateMultiplier_(dict.lookupOrDefault<scalar>("flowRateMultiplier", 1.0)),
     refValue_(dict.lookupOrDefault<scalar>("refValue", 0.0)),
     refPoint_(dict.lookupOrDefault<vector>("refPoint", vector::zero)),
-    relaxationTime_(dict.lookupOrDefault<scalar>("dynamicPressureCorrectionRelaxationTime", -1.0)),
-    dynamicPressureCorrection_(dict.lookupOrDefault<scalar>("dynamicPressureCorrection", -1.0)),
+    dynamicPressureCorrectionRelaxationTime_(dict.lookupOrDefault<scalar>("dynamicPressureCorrectionRelaxationTime", -1.0)),
+    dynamicPressureCorrection_(dict.lookupOrDefault<scalar>("dynamicPressureCorrection", 1.0)),
     lastTime_(0.0),
+    waterStored_(dict.lookupOrDefault<scalar>("waterStored", 0.0)),
     mean_water_dynamic_pressure_old_(dict.lookupOrDefault<scalar>("meanWaterDynamicPressureOld", 0.0))
     
 {
@@ -96,24 +97,16 @@ waterLevel_alpha_prghFvPatchScalarField
         << endl;
     #endif
     
-    if (mode_=="ratingCurveFunction")  {
-        if(mag(my_data_->value(0.)+my_data_->value(1.)+my_data_->value(2.)+my_data_->value(3.))<SMALL ) {
-          FatalErrorIn ("waterLevel_alpha_prgh")
-              << " Parameters in table must be set for ratingCurveFunction."  << ".\n"
-              << " Error on patch " << this->patch().name()
-              << " of field " << this->internalField().name()
-              << " in file " << this->internalField().objectPath()
-              << exit(FatalError);
-        }
-    } else 
     if (mode_=="ratingCurveTable")  {          
+    } else
+    if (mode_=="waterStorageTable")  {          
     } else
     if (mode_=="timeSeries")  {          
     } else
     if (mode_=="singleValue")  {          
     } else {
           FatalErrorIn ("waterLevel_alpha_prgh")
-              << " mode must be singleValue, ratingCurveTable, ratingCurveFunction or timeSeries, not "  << mode_   << ".\n"
+              << " mode must be singleValue, ratingCurveTable, timeSeries or waterStorageTable, not "  << mode_   << ".\n"
               << " Error on patch " << this->patch().name()
               << " of field " << this->internalField().name()
               << " in file " << this->internalField().objectPath()
@@ -161,9 +154,10 @@ waterLevel_alpha_prghFvPatchScalarField
     flowRateMultiplier_(ptf.flowRateMultiplier_),
     refValue_(ptf.refValue_),
     refPoint_(ptf.refPoint_),
-    relaxationTime_(ptf.relaxationTime_),
+    dynamicPressureCorrectionRelaxationTime_(ptf.dynamicPressureCorrectionRelaxationTime_),
     dynamicPressureCorrection_(ptf.dynamicPressureCorrection_),
     lastTime_(ptf.lastTime_),
+    waterStored_(ptf.lastTime_),
     mean_water_dynamic_pressure_old_(ptf.mean_water_dynamic_pressure_old_)
     
     
@@ -188,9 +182,10 @@ waterLevel_alpha_prghFvPatchScalarField
     flowRateMultiplier_(ptf.flowRateMultiplier_),
     refValue_(ptf.refValue_),
     refPoint_(ptf.refPoint_),
-    relaxationTime_(ptf.relaxationTime_),
+    dynamicPressureCorrectionRelaxationTime_(ptf.dynamicPressureCorrectionRelaxationTime_),
     dynamicPressureCorrection_(ptf.dynamicPressureCorrection_),
     lastTime_(ptf.lastTime_),
+    waterStored_(ptf.lastTime_),
     mean_water_dynamic_pressure_old_(ptf.mean_water_dynamic_pressure_old_)
     
 {
@@ -215,9 +210,10 @@ waterLevel_alpha_prghFvPatchScalarField
     flowRateMultiplier_(ptf.flowRateMultiplier_),
     refValue_(ptf.refValue_),
     refPoint_(ptf.refPoint_),
-    relaxationTime_(ptf.relaxationTime_),
+    dynamicPressureCorrectionRelaxationTime_(ptf.dynamicPressureCorrectionRelaxationTime_),
     dynamicPressureCorrection_(ptf.dynamicPressureCorrection_),
     lastTime_(ptf.lastTime_),
+    waterStored_(ptf.lastTime_),
     mean_water_dynamic_pressure_old_(ptf.mean_water_dynamic_pressure_old_)
 {
     #ifdef DEBUG
@@ -322,8 +318,8 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
     // How to get the real density of the light fluid? What, if we are not running the solver but e.g. mapFields?
     rho1=gSum(pos0(alphap)*neg(alphap-SMALL) * (rhop ) * patch().magSf()) / ( gSum( pos0(alphap)*neg(alphap-SMALL) *        patch().magSf()) + SMALL);    
     if (rho1 < SMALL) {
-        // Info << "Problem in waterLevel_alpha_prgh: No air found on patch " << this->patch().name()
-        //     << ". Using global minimum of rho instead." << endl;
+        // Info << "WARNING: waterLevel_alpha_prgh: No air found on patch " << this->patch().name()
+        //     << ". Using global minimum of rho to compute pressure field." << endl;
         rho1=gMin(rhoScalarField);
     }
 
@@ -334,13 +330,13 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
     if (mode_=="singleValue")  {          
           waterlevel = my_data_->value(this->db().time().value()); 
     } else 
-    if (mode_=="ratingCurveFunction")  {
-          // Compute desired water level from rating curve via formula
-          waterlevel = my_data_->value(1.) + sign(flowRateAlphaPhi) * my_data_->value(2.) * pow((my_data_->value(0.) * mag(flowRateAlphaPhi)), my_data_->value(3.));
-    } else
     if (mode_=="ratingCurveTable")  {          
           // Compute desired water level from rating curve via table
           waterlevel =  my_data_->value(flowRateAlphaPhi);
+    } else
+    if (mode_=="waterStorageTable")  {          
+          // Compute desired water level from water volume that left the domain via table
+          waterlevel =  my_data_->value(waterStored_);
     } else
     if (mode_=="timeSeries")  {          
           // Compute desired water level for current time from curve via table
@@ -354,7 +350,7 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
     waterlevelPoint = waterlevel * (-g.value()/mag(g.value()));  
 
     #ifdef DEBUG
-       Info << "Q=" << flowRateAlphaPhi << " m³/s; h_set=" << waterlevel  << " m" << endl;
+       Info << "Q=" << flowRateAlphaPhi << " m^3/s; h_set=" << waterlevel  << " m" << endl;
        Info << "Mean alpha " << gSum(alphap * patch().magSf()) / ( gSum( patch().magSf()) + SMALL) << endl;    
        Info << "Mean rho   " << gSum(rhop   * patch().magSf()) / ( gSum( patch().magSf()) + SMALL) << endl;    
     #endif
@@ -383,8 +379,6 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
               << exit(FatalError);
       }
 
-
-
       #ifdef DEBUG
          Info << "refPoint    "    << refPoint_    << endl;
          Info << "point_offset    "    << point_offset   << endl;
@@ -392,44 +386,44 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
          Info << "this->db().time().value() " << this->db().time().value() << endl;
          Info << "lastTime_ " << lastTime_ << endl;
       #endif
-
-
+         
       // Calculate dynamic pressure stabilization field for inbound flow.
       dynamic_pressure_ = neg(phip)*0.5*rhop*pow(phip/(patch().magSf()+SMALL),2.0);
-      
-      // Check for inbound flow and required user settings
-      if ( fabs(gSum(neg(phip)*phip*alphap)) > fabs(gSum(pos(phip)*phip*alphap)+SMALL) ) {
-        if ( dynamicPressureCorrection_ < -SMALL) {
-           FatalErrorIn ("waterLevel_alpha_p_rgh:")
-              << "Inbound flow observed on patch: "  << this->patch().name() << nl << nl
-              << "You must set dynamicPressureCorrection and dynamicPressureCorrectionRelaxationTime "
-              << "in file p_rgh according to your needs. Think about it carefully! "  
-              << exit(FatalError);
-        }              
-
-        if (( dynamicPressureCorrection_ > SMALL) && ( relaxationTime_ < SMALL))  {
-           FatalErrorIn ("waterLevel_alpha_p_rgh:")
-              << "Inbound flow observed on patch: "  << this->patch().name() << nl << nl
-              << "You must set dynamicPressureCorrectionRelaxationTime "
-              << "in file p_rgh according to your needs. Think about it carefully! "  
-              << exit(FatalError);
-        }              
-      }
 
       // Do this once per timestep.  
       if (this->db().time().value() - lastTime_ > SMALL) {
-        lastTime_ = this->db().time().value();
-
-        Info << "waterLevel BC " <<  this->internalField().name() << " " << this->patch().name() << " Values: Q=" << flowRateAlphaPhi << " m³/s; h_set=" << waterlevel  << " m"    << endl;
+        Info << "waterLevel BC on " << this->patch().name() << ": Q_out=" << flowRateAlphaPhi << " m^3/s; h_set=" << waterlevel  << " m"    << endl;
     
-        // Only if correction needed
+        // Balance of water that left the domain
+        if (mode_=="waterStorageTable")  {          
+          waterStored_ = waterStored_ 
+                         + pos(waterStored_-SMALL)*gSum(phip*alphap)*(this->db().time().value() - lastTime_)
+                         + neg(waterStored_-SMALL)*gSum(pos(phip)*phip*alphap)*(this->db().time().value() - lastTime_);
+        }
+
+        // Only, if correction of dynamicPressure requested
         if ( dynamicPressureCorrection_ > SMALL) {
-        
+          // Check for inbound flow and required user settings
+          if (dynamicPressureCorrectionRelaxationTime_ < -SMALL)  {
+            if ( fabs(gSum(neg(phip)*phip*alphap)) > fabs(gSum(pos(phip)*phip*alphap)+SMALL) ) {
+              Info << nl
+                   << "###################################################################################" << nl 
+                   << "###           WARNING: Inbound flow observed on patch: " << this->patch().name() << nl 
+                   << "###################################################################################" << nl 
+                   << "Water level oscillation is likely! You must set  "<< nl
+                   << "  - dynamicPressureCorrection "<< nl
+                   << "  - dynamicPressureCorrectionRelaxationTime "<< nl
+                   << "in file p_rgh for patch " << this->patch().name() << " according to your needs. " << nl << nl
+                   << "Think about it carefully! "<< nl
+                   << "###################################################################################"<< nl << endl;
+            }              
+          }
+
           // Calculate dynamic pressure stabilization correction for inbound flow.
           mean_water_dynamic_pressure = dynamicPressureCorrection_ * gSum( (alphap) * patch().magSf() * dynamic_pressure_) / ( gSum( (alphap) * patch().magSf()) + SMALL);
 
           // Evaluate relaxation factor 
-          relax = min(max(this->db().time().deltaT().value()/relaxationTime_, SMALL), 1.0);
+          relax = min(max(this->db().time().deltaT().value()/dynamicPressureCorrectionRelaxationTime_, SMALL), 1.0);
         
           // Initialise with useful value) 
           if (mean_water_dynamic_pressure_old_< SMALL) mean_water_dynamic_pressure_old_ = mean_water_dynamic_pressure;
@@ -443,15 +437,18 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
             Info << "mean_water_dynamic_pressure_old set to " << mean_water_dynamic_pressure_old_ << endl;
           #endif      
         }
-      }
 
+        // Store the execution time 
+        lastTime_ = this->db().time().value();
+      }
 
       // Compute pressure field at the boundary
       //  - Desired hydrostatic profile
       //  - Apply offset necessary to match the reference pressure
       //  - totalPressure stabilization for inbound flow
       //  - correction for totalPressure stabilization for inbound flow
-     
+
+//            rhop*((g.value()&patch().Cf())-(g.value()&waterlevelPoint))
       
       physical_pressure_ =
         ( 
@@ -480,15 +477,24 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
       #ifdef DEBUG
       //  Info << "Mean airvalueFraction()   " << gSum(valueFraction()   * (1-alphap) * patch().magSf()) / ( gSum( (1-alphap) * patch().magSf()) + SMALL) << endl;    
       //  Info << "Mean watervalueFraction() " << gSum(valueFraction() * alphap * patch().magSf()) / ( gSum(alphap * patch().magSf()) + SMALL) << endl;    
-      Info << "Mean airvalueFraction()   " << gSum(  neg(phip) * (1-alphap) * patch().magSf()) / ( gSum( (1-alphap) * patch().magSf()) + SMALL) << endl;    
-      Info << "Mean watervalueFraction() " << gSum(  neg(phip) * alphap * patch().magSf()) / ( gSum(alphap * patch().magSf()) + SMALL) << endl;    
-      Info << "Times alpha.water" << lastTime_  << this->db().time().value() << endl;
+      Info << "Mean airvalueFraction():   " << gSum(  neg(phip) * (1-alphap) * patch().magSf()) / ( gSum( (1-alphap) * patch().magSf()) + SMALL) << endl;    
+      Info << "Mean watervalueFraction(): " << gSum(  neg(phip) * alphap * patch().magSf()) / ( gSum(alphap * patch().magSf()) + SMALL) << endl;    
+      Info << "Times alpha.water: " << lastTime_  << "  " << this->db().time().value() << endl;
       #endif
 
       // Do this once per timestep.  
       if (this->db().time().value() - lastTime_ > SMALL) {
+        // Info << "waterLevel BC on " << this->patch().name() << ": Q_out=" << flowRateAlphaPhi << " m^3/s; h_set=" << waterlevel  << " m"    << endl;
+
+        // Balance of water that left the domain
+        if (mode_=="waterStorageTable")  {          
+          waterStored_ = waterStored_ 
+                         + pos(waterStored_-SMALL)*gSum(phip*alphap)*(this->db().time().value() - lastTime_)
+                         + neg(waterStored_-SMALL)*gSum(pos(phip)*phip*alphap)*(this->db().time().value() - lastTime_);
+        }
+
+        // Store the execution time 
         lastTime_ = this->db().time().value();
-        Info << "waterLevel BC " <<  this->internalField().name() << " " << this->patch().name() << " Values: Q=" << flowRateAlphaPhi << " m³/s; h_set=" << waterlevel  << " m"    << endl;
       }
         
       if (this->internalField().name()=="alpha.water") 
@@ -527,10 +533,15 @@ void Foam::waterLevel_alpha_prghFvPatchScalarField::write
     os.writeKeyword("mode") << mode_ << token::END_STATEMENT << nl;
     my_data_->writeData(os);
     os.writeKeyword("flowRateMultiplier") << flowRateMultiplier_ << token::END_STATEMENT << nl;
+
+    if (mode_=="waterStorageTable")  {          
+       os.writeKeyword("waterStored") << waterStored_ << token::END_STATEMENT << nl;
+    } 
+
     
     if (this->internalField().name()=="p_rgh") {
       os.writeKeyword("dynamicPressureCorrection") << dynamicPressureCorrection_ << token::END_STATEMENT << nl;
-      os.writeKeyword("dynamicPressureCorrectionRelaxationTime") << relaxationTime_  << token::END_STATEMENT << nl;
+      os.writeKeyword("dynamicPressureCorrectionRelaxationTime") << dynamicPressureCorrectionRelaxationTime_  << token::END_STATEMENT << nl;
       os.writeKeyword("refPoint") << refPoint_ << token::END_STATEMENT << nl;
       os.writeKeyword("refValue") << refValue_ << token::END_STATEMENT << nl;
       os.writeKeyword("meanWaterDynamicPressureOld") << mean_water_dynamic_pressure_old_ << token::END_STATEMENT << nl;
