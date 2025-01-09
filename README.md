@@ -82,6 +82,10 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 ## History of changes
 
+### 2025-01-009
+- New functionality for waterLevel-BC: Height value can depend on stored volume of water. Ideal for ventilation!
+- Leveled "Fixed waterLevelXXXX FATAL ERROR" down to a warning
+
 ### 2024-11-14
 - Fixed waterLevelXXXX FATAL ERROR, if inbound flow occurs and user parameters are missing.
 - Update comments on "waterLevelXXXX stop"
