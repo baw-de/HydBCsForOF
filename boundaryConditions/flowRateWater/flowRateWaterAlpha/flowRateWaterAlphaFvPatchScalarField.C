@@ -140,15 +140,14 @@ void Foam::flowRateWaterAlphaFvPatchScalarField::updateCoeffs()
         sharpen_ * neg(phip)  * pos(this->patchInternalField()-0.5) 
         + (1 - sharpen_ * neg(phip)) *     this->patchInternalField();
 
-
-    // If the pressure is above the threshold set alpha.water=1
-    this->refValue() = pos(pp-pressureThreshold_) + neg(pp-pressureThreshold_) * this->refValue();
-
     // If alpha < alphaLowerThreshold, set alpha to 0., 
     this->refValue() = pos(this->refValue()-alphaLowerThreshold_) * this->refValue();
 
     // If alpha > alphaUpperThreshold, set alpha to 1., 
     this->refValue() = pos(this->refValue()-alphaUpperThreshold_) + neg(this->refValue()-alphaUpperThreshold_) * this->refValue();
+
+    // If the pressure is above the threshold set alpha.water=1
+    this->refValue() = pos(pp-pressureThreshold_) + neg(pp-pressureThreshold_) * this->refValue();
 
     mixedFvPatchScalarField::updateCoeffs();
 }
