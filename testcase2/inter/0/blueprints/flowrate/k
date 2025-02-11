@@ -1,0 +1,6 @@
+    {
+        type            inletOutlet;
+        inletValue      uniform 0.01;
+        value           uniform 0.01;
+    }
+    

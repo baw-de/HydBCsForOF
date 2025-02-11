@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  BAW-Blaupause                         |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+fieldAverage1
+{
+    type            fieldAverage;
+    libs            ("libfieldFunctionObjects.so");
+
+    timeStart       50.;                           // Activation time - defaults to -VGREAT
+    timeEnd         1.e99;                          // De-activation time - defaults to VGREAT
+
+    writeControl    writeTime;                      // Choose: adjustableRunTime none outputTime runTime timeStep writeTime
+    writeInterval   1;                              // How often to write according to writeControl            
+
+    restartOnRestart false;                         // Restart the averaging on restart.
+    restartOnOutput  false;                         // Restart the averaging on output.
+    periodicRestart  false;                         // Periodically restart the averaging.
+    restartPeriod    0.002;                         // Periodic restart period.
+
+    fields
+    (
+	alpha.water
+        {
+            mean        on;
+            prime2Mean  off;
+            base        time;
+        }
+
+	U
+        {
+            mean        on;
+            prime2Mean  on;
+            base        time;
+        }
+
+        p_rgh
+        {
+            mean        on;
+            prime2Mean  on;
+            base        time;
+        }
+        
+        p
+        {
+            mean        on;
+            prime2Mean  on;
+            base        time;
+        }
+        
+    );
+}
+
+
+// ************************************************************************* //
+

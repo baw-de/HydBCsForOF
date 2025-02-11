@@ -1,0 +1,4 @@
+    {
+        type            omegaWallFunction;
+        value           uniform 0.;
+    }

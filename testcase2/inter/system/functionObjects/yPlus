@@ -1,0 +1,24 @@
+/* Calculate yPlus on surfaces */
+
+yPlus1
+{
+    // Mandatory entries (unmodifiable)
+    type            yPlus;
+    libs            (fieldFunctionObjects);
+
+    // Optional (inherited) entries
+    writePrecision  8;
+    writeToFile     true;
+    useUserTime     true;
+    // region          region0;
+    enabled         true;
+    log             false;
+    // timeStart       0;
+    // timeEnd         1000;
+    executeControl  writeTime;
+    executeInterval 1;
+    writeControl    writeTime;
+    writeInterval   1;
+}
+
+

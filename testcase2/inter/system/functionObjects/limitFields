@@ -1,0 +1,51 @@
+
+limitFieldsK
+{
+    // Mandatory entries (unmodifiable)
+    type            limitFields;
+    libs            (fieldFunctionObjects);
+
+    // Mandatory entries (runtime modifiable)
+    fields          (k);
+    limit           max;
+    max             100.0;     // Hartes Limit, nicht massenkonservativ!
+
+    // Optional (inherited) entries
+    // region          region0;
+    // enabled         true;
+    // log             true;
+    // timeStart       0;
+    // timeEnd         1000;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    writeTime;
+    writeInterval   1;
+    writeToFile	    true;
+}
+
+
+limitFieldsOmega
+{
+    // Mandatory entries (unmodifiable)
+    type            limitFields;
+    libs            (fieldFunctionObjects);
+
+    // Mandatory entries (runtime modifiable)
+    fields          (omega);
+    limit           max;
+    max             10000000.0;     // Hartes Limit, nicht massenkonservativ!
+
+    // Optional (inherited) entries
+    // region          region0;
+    // enabled         true;
+    // log             true;
+    // timeStart       0;
+    // timeEnd         1000;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    writeTime;
+    writeInterval   1;
+    writeToFile	    true;
+}
+
+

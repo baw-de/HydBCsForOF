@@ -24,7 +24,7 @@
  *        // inletDir     (1. 2. 3.);    // Vector for prescribed direction ([m] [m] [m])
  *        // relaxationTime    0.0;      // Relax adapation of the prescribed velocity [s]. Helpful against upstream waves. 
  *                                       // Can be estimated from: upstreamLength/sqrt(g * waterDepth)        
- *        // alphaLowerThreshold -9999.; // For all cells with alphaLowerThreshold < alpha < alphaUpperThreshold, the 
+ *        // alphaLowerThreshold  0.001; // For all cells with alphaLowerThreshold < alpha < alphaUpperThreshold, the 
  *        // alphaUpperThreshold  0.999; //   velocity will be set to zero. Default: Stop motion for alpha < 0.999
  *        
  *        value           uniform (0 0 0); // placeholder

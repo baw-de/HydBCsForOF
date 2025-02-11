@@ -1,0 +1,16 @@
+        
+        // Flowrate can be variable in time by giving a table  ([s] [m³/s]):
+        // flowRateWater   table (
+        //                  (0.0  482.5)    
+        //                  (20.0  600.)
+        //                  (60.0   0.0)   
+        //                );                      
+
+        // ADVANCED ENTRIES:
+        // relaxationTime 0.0;        // Relaxation time, set to Eigenperiod of upstream waves if wavy surface is observed.
+        alphaLowerThreshold  0.001;   // Allow flow for cells with alpha.water < 0.001
+        alphaUpperThreshold  0.999;   // Allow flow for cells with alpha.water > 0.999
+
+        // Initialise [m/s][m/s][m/s]
+        value           uniform (0. 0. 0.); 
+    }

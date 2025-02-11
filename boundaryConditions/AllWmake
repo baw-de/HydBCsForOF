@@ -11,9 +11,14 @@ VERSION=`echo $WM_PROJECT_VERSION| cut -d "v" -f 2`
 if [ $VERSION -eq 2212 ] ; then
   OK=1
 else
+  if [ $VERSION -lt 2212 ] ; then
+    echo $WM_PROJECT_VERSION detected
+    echo This OF version is not supported. End.
+  fi
   if [ $VERSION -gt 2212 ] ; then
     echo $WM_PROJECT_VERSION detected
     echo OF version v2212 is recommended! You are using an untested version.
+    OK=1
   fi
 fi
 

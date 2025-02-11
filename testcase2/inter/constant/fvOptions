@@ -1,0 +1,22 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Optional: Limit velocities to stabilize the model
+// limitU
+//    {
+//        type            limitVelocity; // Adds an explicit momentum source to limit high velocities
+//        active          yes;           
+//        selectionMode   all;
+//        max             25.0;          // Set this to a value higher than anything you would physically expect!
+//    }
+
+
+

@@ -1,0 +1,65 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      nut;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    xmin
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    xmax
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    
+    zmax
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    
+    bottom
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    mywalls
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    frontplate
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    crown
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    backplate
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    ventilation
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    
+}

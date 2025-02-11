@@ -1,0 +1,26 @@
+probeLine1 
+  {
+      type sets;
+      enabled true;
+      verbose true;
+      interpolationScheme cellPoint;
+      // outputControl timeStep;
+      // outputInterval 1;
+      writeControl    adjustableRunTime;              // Choose: adjustableRunTime none outputTime runTime timeStep writeTime
+      writeInterval   1.0;                            // How often to write according to writeControl            
+      setFormat raw;
+      fields (U alpha.water p p_rgh); //insert the fields you would like to sample
+      sets
+      (
+          crest
+          {
+          type uniform;
+          axis z;
+          start (5. 0.25 0.4);
+          end   (5. 0.25 0.8);
+          nPoints 400;
+        }
+      );
+  }
+
+

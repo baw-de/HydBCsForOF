@@ -1,0 +1,21 @@
+#!/bin/sh
+
+## Copy edited boundary condition files to folder "0"
+## Alternative: Run script "./setBoundaries.sh"
+cp 0/bak/* 0
+
+## After editing "system/setFieldsDict", execute setFields. 
+## This overwrites the files in "0" 
+setFields
+
+## For parallel computing, edit "system/decomposeParDict" according to the number of processes.
+## Execute decomposePar to distribute to "processor" folders.
+decomposePar
+
+## Execute "interFoam" in parallel, in this case on 16 cpu-cores
+mpirun -np 32 interFoam -parallel
+
+
+
+
+

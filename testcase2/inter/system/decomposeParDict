@@ -1,0 +1,45 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  BAW-Blaupause                         |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 32;
+
+method  scotch;
+// method  multiLevel;  
+
+// On large (cluster) systems, better use "multilevel". Parameters below! 
+// Hint: "lscpu -e" shows the topology!
+
+multiLevelCoeffs
+{
+    nodes
+    {
+        numberOfSubdomains 4;
+        method scotch;
+    }
+    cpus_per_node
+    {
+        numberOfSubdomains 2;
+        method  scotch;
+    }
+    tasks_per_cpu
+    {
+        numberOfSubdomains 96;
+        method  scotch;
+    }
+}
+
+
+// ************************************************************************* //

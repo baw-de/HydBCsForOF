@@ -48,7 +48,7 @@ Foam::flowRateWaterVelocityFvPatchVectorField::
         relaxationTime_(0.0),
         avgU_old_(0.),
         lastTime_(0.),
-        alphaLowerThreshold_(-GREAT),   
+        alphaLowerThreshold_(0.001),   
         alphaUpperThreshold_(0.999)   
 
 
@@ -71,7 +71,7 @@ Foam::flowRateWaterVelocityFvPatchVectorField::
         relaxationTime_(dict.lookupOrDefault<scalar>("relaxationTime",0.0)),
         avgU_old_(dict.lookupOrDefault<scalar>("avgU",0.0)),
         lastTime_(dict.lookupOrDefault<scalar>("lastTime",0.0)),
-        alphaLowerThreshold_(dict.lookupOrDefault<scalar>("alphaLowerThreshold",-GREAT)),    
+        alphaLowerThreshold_(dict.lookupOrDefault<scalar>("alphaLowerThreshold",0.001)),    
         alphaUpperThreshold_(dict.lookupOrDefault<scalar>("alphaUpperThreshold",0.999))    
 
 
@@ -247,7 +247,7 @@ void Foam::flowRateWaterVelocityFvPatchVectorField::updateCoeffs()
 #ifdef FLOWRATE_CORRECTOR
     if((mag(flowRateCorrector)<0.5)||(mag(flowRateCorrector)>2.)) {
         Info << "########################################################################################" <<  nl;
-        Info << "Problem at the bounadry with flowRateWaterVelocity. Should vanish after a few timesteps." <<  nl;
+        Info << "Problem at the boundary with flowRateWaterVelocity. Should vanish after a few timesteps." <<  nl;
         Info << "flowRateCorrector = "<<flowRateCorrector <<  nl;
         Info << "########################################################################################" <<  nl;
         flowRateCorrector=1.;

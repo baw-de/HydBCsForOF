@@ -1,0 +1,62 @@
+
+probes
+{
+    type            probes;
+    libs            ("libsampling.so");
+
+    writeControl    adjustableRunTime;              // Choose: adjustableRunTime none outputTime runTime timeStep writeTime
+    writeInterval   0.1;                            // How often to write according to writeControl            
+
+    // timeStart       400;                // Activation time - defaults to -VGREAT
+    // timeEnd         600;                // De-activation time - defaults to VGREAT
+
+    fields
+    (
+        p_rgh
+        p
+//        p_rghMean
+        U
+//        UMean
+        alpha.water 
+    );
+
+    probeLocations
+    (
+        (0.001 0.251 0.25)
+        (0.1 0.251 0.25)
+        (1.0 0.251 0.25)
+        (2.0 0.251 0.25)
+        (3.0 0.251 0.25)
+        (4.0 0.251 0.25)
+        (4.5 0.251 0.25)
+        (4.7 0.251 0.25)
+        (0.5 0.251 0.4)
+        (0.5 0.251 0.5)
+        (0.5 0.251 0.6)
+        (0.5 0.251 0.7)
+        (0.5 0.251 0.8)
+        (0.5 0.251 0.9)
+    );
+    
+    interpolationScheme cellPoint; // Deliver raw cell values or interpolated values?
+    
+    // Options:
+    // fixedLocations 		Do not recalculate cells if mesh moves 	bool 	no 	true
+    // includeOutOfBounds 	Include out-of-bounds locations 	bool 	no 	true
+    // verbose 			Increase the level of verbosity to log 	bool 	no 	false
+    // sampleOnExecute 		Sample on execution and store results 	bool 	no 	false
+    // interpolationScheme 	Interpolation scheme to use 	word 	no 	cell
+    
+    // Options for the interpolationScheme entry:
+    // Property 	Description
+    // cell 	Uses the cell value for any location within the cell.
+    // cellPatchConstrained 	Uses the cell value for any point in the cell apart from a boundary face where it uses the boundary value directly.
+    // cellPoint 	Given cell centre values and point (vertex) values decompose into tetrahedra and linear interpolate within them.
+    // cellPointFace 	Given face centre values and point (vertex) values decompose into tetrahedra and linear interpolate within them.
+    // cellPointWallModified 	Same as interpolationCellPoint, but if interpolating a wall face, uses cell centre value instead.
+    // pointMVC 	Given cell centre values interpolates to vertices and uses these to do a Mean Value Coordinates interpolation.
+    
+    
+}
+
+// ************************************************************************* //
