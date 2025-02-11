@@ -6,7 +6,8 @@
 
 The numerical background is described in this paper, which we kindly ask you to cite if you are using **HydBCsForOF**:  
 Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with OpenFOAM',
-10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949           ](https://doi.org/10.3929/ethz-b-000675949           )
+10th International Symposium on Hydraulic Structures, Zürich. ISSN 0374-0056 , DOI: [10.3929/ethz-b-000675949           ](https://doi.org/10.3929/ethz-b-000675949           ). 
+
 The example in "testcase" refers to this publication.
 
 The second example in "testcase2" refers to a second publication, which is currently under review.
