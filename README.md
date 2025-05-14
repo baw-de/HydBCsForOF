@@ -15,7 +15,7 @@ The second example in "testcase2" refers to a second publication, which is curre
 
 ## Installation
 
-You have to install OpenFOAM in the ESI variant, version v2212: https://www.openfoam.com/news/main-news/openfoam-v2212. Further details are given in the accompanying paper (see above).
+You have to install OpenFOAM in the ESI variant: https://www.openfoam.com/news/main-news/openfoam-v2412. Currently, version v2212 to v2412 are known to work. Further details are given in the accompanying paper (see above).
 
 You can copy and paste the following code directly into your command line, after you activated your OpenFOAM environment:
 
