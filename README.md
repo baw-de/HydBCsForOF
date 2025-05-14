@@ -39,7 +39,7 @@ For parallel execution, you can execute the following commands, starting from th
 
 ```
 cd inter 
-cp 0/bak* 0 
+cp 0/bak/* 0 
 setFields 
 decomposePar 
 mpirun -np 16 interFoam -parallel
