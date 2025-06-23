@@ -10,7 +10,7 @@ Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with
 
 The example in "testcase" refers to the upper publication.
 
-The second example in "testcase2" refers to a second publication, which is currently under review.
+The second example in "testcase2" refers to a second publication, which is in preparation.
 
 
 ## Installation
