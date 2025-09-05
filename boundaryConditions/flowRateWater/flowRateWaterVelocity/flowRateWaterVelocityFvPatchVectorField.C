@@ -192,8 +192,13 @@ void Foam::flowRateWaterVelocityFvPatchVectorField::updateCoeffs()
 
 
     // Sum up the wetted boundary area, projected on inlet direction
+    if (flowrate > 0.0 ) {
     // Weighted with alpha filling and thresholds
-    A1 = gSum(mag(patch().Sf() & n) * alphap * pos(neg(alphap-alphaLowerThreshold_)+pos(alphap-alphaUpperThreshold_)-SMALL) );
+      A1 = gSum(mag(patch().Sf() & n) * alphap * pos(neg(alphap-alphaLowerThreshold_)+pos(alphap-alphaUpperThreshold_)-SMALL) );
+    } else {
+    // Weighted with alpha filling
+      A1 = gSum(mag(patch().Sf() & n) * alphap );
+    }
 
     if(A1<SMALL) {
         FatalErrorIn
@@ -268,14 +273,15 @@ void Foam::flowRateWaterVelocityFvPatchVectorField::updateCoeffs()
     if (flowrate < 0.0) {
         // Is flow outbound? If yes, get rid of transversal momentum!
         // Flow direction in the domain
-        vectorField U_Innen {this->patchInternalField()};
+        vectorField U_Innen { this->patchInternalField()};
+        vectorField U_Para;
         // For outbound flow, add transversal velocity components to the BC
         U_Boundary  =  U_Boundary + mag(n) * ( U_Innen - (U_Innen & patch().nf()) * patch().nf());        
-    } 
-
-    // Take into account thresholds
-    U_Boundary = U_Boundary * (pos(neg(alphap-alphaLowerThreshold_)+pos(alphap-alphaUpperThreshold_)-SMALL)+SMALL);
-
+    } else  {
+      // Inbound flow? Take into account thresholds
+      U_Boundary = U_Boundary * (pos(neg(alphap-alphaLowerThreshold_)+pos(alphap-alphaUpperThreshold_)-SMALL)+SMALL);
+    }
+    
     fixedValueFvPatchVectorField::operator==
         (
          U_Boundary
@@ -283,7 +289,6 @@ void Foam::flowRateWaterVelocityFvPatchVectorField::updateCoeffs()
 
     fixedValueFvPatchVectorField::updateCoeffs();
 }
-
 
 void Foam::flowRateWaterVelocityFvPatchVectorField::write
 (
