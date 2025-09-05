@@ -87,6 +87,9 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 ## History of changes
 
+### 2025-09-05
+- More robust for outbound flow, i.e. negative flow rates.
+  
 ### 2025-01-09
 - New functionality for waterLevel-BC: Height value can depend on stored volume of water. Ideal for ventilation!
 - Leveled "Fixed waterLevelXXXX FATAL ERROR" down to a warning
