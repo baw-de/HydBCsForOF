@@ -15,7 +15,7 @@ The second example in "testcase2" refers to a second publication, which is in pr
 
 ## Installation
 
-You have to install OpenFOAM in the ESI variant: https://www.openfoam.com/news/main-news/openfoam-v2412. Currently, version v2212 to v2412 are known to work. Further details are given in the accompanying paper (see above).
+You have to install OpenFOAM in the ESI variant: https://www.openfoam.com/news/main-news/openfoam-v2412. Currently, version v2412 to v2212 are known to work. Further details are given in the accompanying paper (see above).
 
 You can copy and paste the following code directly into your command line, after you activated your OpenFOAM environment:
 
@@ -49,11 +49,10 @@ This will change into the computation folder, copy and initialize the variable f
 
 ## Transfer to your own example
 
-Basic knowledge in OpenFOAM is required to setup examples based on these boundary conditions. It is necessary that you know  how to
+Basic knowledge in OpenFOAM is required to setup examples based on these boundary conditions. It is necessary that you know how to
 
 - generate a mesh with blockMesh and snappyHexMesh or any other tool of your choice
-- setup an interFoam case (i.e. how to apply boundary conditions for all boundaries for all field variables)
-- set the initial conditions
+- setup an interFoam case (e.g. how to apply boundary and initial conditions for all boundaries for all field variables)
 - run the case
 - post-process the results
 
@@ -89,6 +88,7 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 ### 2025-09-05
 - More robust for outbound flow, i.e. negative flow rates.
+- Switch to v2412
   
 ### 2025-01-09
 - New functionality for waterLevel-BC: Height value can depend on stored volume of water. Ideal for ventilation!
