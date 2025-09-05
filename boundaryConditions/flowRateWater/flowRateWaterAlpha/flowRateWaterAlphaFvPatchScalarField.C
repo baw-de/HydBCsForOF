@@ -134,21 +134,27 @@ void Foam::flowRateWaterAlphaFvPatchScalarField::updateCoeffs()
     // Outbound flow: NeumannBC
     this->valueFraction() = neg(phip);
 
-    // Value for inbound flow
-    // "sharpen_" controls the sharpening of alpha.water by switching to 0 or 1 instead of Neumann=0
-    this->refValue() = 
-        sharpen_ * neg(phip)  * pos(this->patchInternalField()-0.5) 
-        + (1 - sharpen_ * neg(phip)) *     this->patchInternalField();
+    // Default: Homebrew zeroGradient
+    this->refValue() =  this->patchInternalField();
 
+    // Only for inbound flow: Sharpen the alpha.water field!
+    if (gSum(this->refValue()*phip) < 0.0)  {
+    
+      // Value for inbound flow
+      // "sharpen_" controls the sharpening of alpha.water by switching to 0 or 1 instead of Neumann=0
+      this->refValue() = 
+          sharpen_ * neg(phip)  * pos(this->patchInternalField()-0.5) 
+          + (1 - sharpen_ * neg(phip)) *     this->patchInternalField();
 
-    // If the pressure is above the threshold set alpha.water=1
-    this->refValue() = pos(pp-pressureThreshold_) + neg(pp-pressureThreshold_) * this->refValue();
+      // If the pressure is above the threshold set alpha.water=1
+      this->refValue() = pos(pp-pressureThreshold_) + neg(pp-pressureThreshold_) * this->refValue();
 
-    // If alpha < alphaLowerThreshold, set alpha to 0., 
-    this->refValue() = pos(this->refValue()-alphaLowerThreshold_) * this->refValue();
+      // If alpha < alphaLowerThreshold, set alpha to 0., 
+      this->refValue() = pos(this->refValue()-alphaLowerThreshold_) * this->refValue();
 
-    // If alpha > alphaUpperThreshold, set alpha to 1., 
-    this->refValue() = pos(this->refValue()-alphaUpperThreshold_) + neg(this->refValue()-alphaUpperThreshold_) * this->refValue();
+      // If alpha > alphaUpperThreshold, set alpha to 1., 
+      this->refValue() = pos(this->refValue()-alphaUpperThreshold_) + neg(this->refValue()-alphaUpperThreshold_) * this->refValue();
+    }
 
     mixedFvPatchScalarField::updateCoeffs();
 }
