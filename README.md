@@ -10,7 +10,7 @@ Thorenz, C. (2024): 'Boundary Conditions for Hydraulic Structures Modelling with
 
 The example in "testcase" refers to the upper publication.
 
-The second example in "testcase2" refers to a second publication, which is in preparation.
+The second example in "testcase2" refers to a second publication, which was unfortunately not accepted due to "insufficient novelty and relevance".
 
 
 ## Installation
@@ -86,6 +86,9 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 ## History of changes
 
+### 2026-02-09
+- Additional post-processing objects for cutting planes and isosurfaces
+  
 ### 2025-09-05
 - More robust for outbound flow, i.e. negative flow rates.
 - Switch to v2412
