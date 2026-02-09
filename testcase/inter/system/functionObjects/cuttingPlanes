@@ -1,0 +1,59 @@
+cuttingPlanes01
+{
+    type            surfaces;
+    libs            ("libsampling.so");
+
+    writeControl    adjustableRunTime; // Choose: adjustableRunTime none outputTime runTime timeStep writeTime
+    writeInterval   1.;                // How often to write according to writeControl            
+
+    // timeStart       400;            // Activation time - defaults to -VGREAT
+    // timeEnd         600;            // De-activation time - defaults to VGREAT
+
+    // sampleScheme  cellPoint;       // cell cellPatchConstrained cellPoint cellPointFace cellPointWallModified pointMVC
+    // interpolationScheme cellPoint; // cell cellPatchConstrained cellPoint cellPointFace cellPointWallModified pointMVC
+
+    surfaceFormat ensight;            // Data+mesh: abaqus boundaryData debug ensight foam nastran none raw starcd vtk vtp x3d                   
+                                      // Mesh: abq tri nastran ac flma stlb smesh vtp x3d nas abaqus starcd stl flmaz obj vtk off
+ 
+    formatOptions
+    {
+        ensight
+        {
+            collateTimes  true;    // True: Write mesh only once. Not for moving grids!
+            format      binary;
+        }
+    }
+    
+    fields
+    (
+        U alpha.water k nut omega WSP Co
+    );
+
+    surfaces
+    (
+        yNormal-370
+        {
+            type            cuttingPlane;
+            planeType       pointAndNormal;
+            pointAndNormalDict
+            {
+                point       (0 -370. 0);
+                normal      (0 1 0);
+            }
+            interpolate     false;
+        }
+
+        zNormal1.0
+        {
+            type            cuttingPlane;
+            planeType       pointAndNormal;
+            pointAndNormalDict
+            {
+                point       (0 0 1.0);
+                normal      (0 0 1);
+            }
+            interpolate     false;
+        }
+    );
+}
+
