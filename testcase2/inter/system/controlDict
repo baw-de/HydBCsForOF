@@ -67,10 +67,10 @@ functions
     #include "functionObjects/patchWaterFlowRate"
 
     //- Cut slices through the model for post processing 
-    // #include "functionObjects/cuttingPlanes"
+    #include "functionObjects/cuttingPlanes"
 
     //- Extracts iso-surfaces from the model for post processing. E.g. alpha=0.5 for water surface. 
-    // #include "functionObjects/isoSurfaces"
+    #include "functionObjects/isoSurfaces"
 
 }
 
