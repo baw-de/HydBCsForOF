@@ -58,5 +58,11 @@ functions
     //- Calculates the flow rate through a specified patch by summing the flux on patch faces.
     #include "functionObjects/patchWaterFlowRate"
 
+    //- Cut slices through the model for post processing 
+    // #include "functionObjects/cuttingPlanes"
+
+    //- Extracts iso-surfaces from the model for post processing. E.g. alpha=0.5 for water surface. 
+    // #include "functionObjects/isoSurfaces"
+
 }
 
