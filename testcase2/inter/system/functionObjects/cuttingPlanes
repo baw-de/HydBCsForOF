@@ -26,7 +26,7 @@ cuttingPlanes01
     
     fields
     (
-        U alpha.water k nut omega WSP Co
+        U alpha.water k nut omega Co
     );
 
     surfaces
