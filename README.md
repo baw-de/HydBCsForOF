@@ -86,6 +86,9 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 ## History of changes
 
+### 2026-08-07
+- Corrected access to "stored water" in waterLevel_alpha_prghFvPatchScalarField.C thanks to bugfix by Lifang Zhang
+  
 ### 2026-02-09
 - Additional post-processing objects for cutting planes and isosurfaces
   
