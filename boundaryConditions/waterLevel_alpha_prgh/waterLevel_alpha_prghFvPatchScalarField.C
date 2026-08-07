@@ -157,7 +157,7 @@ waterLevel_alpha_prghFvPatchScalarField
     dynamicPressureCorrectionRelaxationTime_(ptf.dynamicPressureCorrectionRelaxationTime_),
     dynamicPressureCorrection_(ptf.dynamicPressureCorrection_),
     lastTime_(ptf.lastTime_),
-    waterStored_(ptf.lastTime_),
+    waterStored_(ptf.waterStored_),
     mean_water_dynamic_pressure_old_(ptf.mean_water_dynamic_pressure_old_)
     
     
@@ -185,7 +185,7 @@ waterLevel_alpha_prghFvPatchScalarField
     dynamicPressureCorrectionRelaxationTime_(ptf.dynamicPressureCorrectionRelaxationTime_),
     dynamicPressureCorrection_(ptf.dynamicPressureCorrection_),
     lastTime_(ptf.lastTime_),
-    waterStored_(ptf.lastTime_),
+    waterStored_(ptf.waterStored_),
     mean_water_dynamic_pressure_old_(ptf.mean_water_dynamic_pressure_old_)
     
 {
@@ -213,7 +213,7 @@ waterLevel_alpha_prghFvPatchScalarField
     dynamicPressureCorrectionRelaxationTime_(ptf.dynamicPressureCorrectionRelaxationTime_),
     dynamicPressureCorrection_(ptf.dynamicPressureCorrection_),
     lastTime_(ptf.lastTime_),
-    waterStored_(ptf.lastTime_),
+    waterStored_(ptf.waterStored_),
     mean_water_dynamic_pressure_old_(ptf.mean_water_dynamic_pressure_old_)
 {
     #ifdef DEBUG
