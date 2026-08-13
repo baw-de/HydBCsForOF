@@ -48,8 +48,8 @@ boundaryField
     zmax
     {
         type            waterLevel_alpha_prgh;  // Behaves like zeroGradient at an outlet and like a Dirichlet-BC at an inlet.
-        mode            singleValue;            // singleValue, ratingCurveTable, timeSeries or waterStorageTable        
-        data            0;                   // water level [m]. Alternative: Supply a table for functions
+        mode            singleValue;            // singleValue, ratingCurveTable, timeSeries or waterStorageTable 
+        data            0.25;                   // water level [m]. Alternative: Supply a table for functions
 
         // data     table  (
         //                (0   2.41)
@@ -90,9 +90,9 @@ boundaryField
 
         data     table  (
                         (0    0.3)
-                        (0.01 0.8)
+                        (0.1  0.8)
                   );                            // table for dependency between Q and h  or between t and h or between V and h  
-
+        
         // OPTIONAL ENTRIES:
         // flowRateMultiplier    1.0;           // For "slice" models: Multiply Q with flowRateMultiplier before evaluating h 
         

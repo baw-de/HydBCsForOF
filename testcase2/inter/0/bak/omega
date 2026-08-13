@@ -40,26 +40,31 @@ boundaryField
         type            omegaWallFunction;
         value           uniform 0.;
     }
+    
     mywalls
     {
         type            omegaWallFunction;
         value           uniform 0.;
     }
+    
     frontplate
     {
         type            omegaWallFunction;
         value           uniform 0.;
     }
+    
     crown
     {
         type            omegaWallFunction;
         value           uniform 0.;
     }
+    
     backplate
     {
         type            omegaWallFunction;
         value           uniform 0.;
     }
+    
     ventilation
     {
         type            inletOutlet;

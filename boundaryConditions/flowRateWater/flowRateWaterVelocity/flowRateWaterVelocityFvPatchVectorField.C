@@ -66,13 +66,13 @@ Foam::flowRateWaterVelocityFvPatchVectorField::
     :
         fixedValueFvPatchVectorField(p, iF),
         flowRateWater_(Function1<scalar>::New("flowRateWater", dict)),
-        inletDir_(dict.lookupOrDefault("inletDir", vector::zero)),
-        flowRateCorrector_(dict.lookupOrDefault<scalar>("flowRateCorrector",1.0)),
-        relaxationTime_(dict.lookupOrDefault<scalar>("relaxationTime",0.0)),
-        avgU_old_(dict.lookupOrDefault<scalar>("avgU",0.0)),
-        lastTime_(dict.lookupOrDefault<scalar>("lastTime",0.0)),
-        alphaLowerThreshold_(dict.lookupOrDefault<scalar>("alphaLowerThreshold",0.001)),    
-        alphaUpperThreshold_(dict.lookupOrDefault<scalar>("alphaUpperThreshold",0.999))    
+        inletDir_(dict.getOrDefault("inletDir", vector::zero)),
+        flowRateCorrector_(dict.getOrDefault<scalar>("flowRateCorrector",1.0)),
+        relaxationTime_(dict.getOrDefault<scalar>("relaxationTime",0.0)),
+        avgU_old_(dict.getOrDefault<scalar>("avgU",0.0)),
+        lastTime_(dict.getOrDefault<scalar>("lastTime",0.0)),
+        alphaLowerThreshold_(dict.getOrDefault<scalar>("alphaLowerThreshold",0.001)),    
+        alphaUpperThreshold_(dict.getOrDefault<scalar>("alphaUpperThreshold",0.999))    
 
 
 {
@@ -250,22 +250,22 @@ void Foam::flowRateWaterVelocityFvPatchVectorField::updateCoeffs()
 #endif
 
 #ifdef FLOWRATE_CORRECTOR
-    if((mag(flowRateCorrector)<0.5)||(mag(flowRateCorrector)>2.)) {
+    if((mag(flowRateCorrector_)<0.5)||(mag(flowRateCorrector_)>2.)) {
         Info << "########################################################################################" <<  nl;
         Info << "Problem at the boundary with flowRateWaterVelocity. Should vanish after a few timesteps." <<  nl;
         Info << "flowRateCorrector = "<<flowRateCorrector <<  nl;
         Info << "########################################################################################" <<  nl;
-        flowRateCorrector=1.;
+        flowRateCorrector_=1.;
     } else {
         if (flowrate/realFlowRate > 1.1)  
-            flowRateCorrector=flowRateCorrector*1.1;
+            flowRateCorrector_=flowRateCorrector_*1.1;
         else if (flowrate/realFlowRate < 0.9)  
-            flowRateCorrector=flowRateCorrector*0.9;
+            flowRateCorrector_=flowRateCorrector_*0.9;
         else
-            flowRateCorrector=flowRateCorrector*flowrate/realFlowRate;
+            flowRateCorrector_=flowRateCorrector_*flowrate/realFlowRate;
     }
     // Correct U iteratively
-    avgU1 = avgU1*flowRateCorrector;
+    avgU1 = avgU1*flowRateCorrector_;
 #endif
 
     vectorField U_Boundary {n * avgU1};
@@ -297,11 +297,11 @@ void Foam::flowRateWaterVelocityFvPatchVectorField::write
 {
     fvPatchVectorField::write(os);
     flowRateWater_->writeData(os);
-    os.writeKeyword("inletDir") << inletDir_ << token::END_STATEMENT << nl;
-    os.writeKeyword("relaxationTime") << relaxationTime_ << token::END_STATEMENT << nl;
-    os.writeKeyword("alphaLowerThreshold") << alphaLowerThreshold_ << token::END_STATEMENT << nl;
-    os.writeKeyword("alphaUpperThreshold") << alphaUpperThreshold_ << token::END_STATEMENT << nl;
-    os.writeKeyword("avgU") << avgU_old_ << token::END_STATEMENT << nl;
+    os.writeEntry("inletDir", inletDir_);
+    os.writeEntry("relaxationTime", relaxationTime_);
+    os.writeEntry("alphaLowerThreshold", alphaLowerThreshold_);
+    os.writeEntry("alphaUpperThreshold", alphaUpperThreshold_);
+    os.writeEntry("avgU", avgU_old_);
 
     writeEntry("value", os);
 

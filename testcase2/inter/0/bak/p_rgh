@@ -27,7 +27,7 @@ boundaryField
         // data     table  (
         //                (0   2.41)
         //                (100 2.41)
-        //          );                          // table for dependency between Q and h or between t and h or between V and h  
+        //          );                          // table for dependency between Q and h  or between t and h or between V and h  
 
         // MANDATORY FOR INBOUND FLOW:
         dynamicPressureCorrection  0;           // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
@@ -50,13 +50,13 @@ boundaryField
     zmax
     {
         type            waterLevel_alpha_prgh;
-        mode            singleValue;            // singleValue, ratingCurveTable, ratingCurveFunction or timeSeries  
-        data            0;                      // water level [m]. Alternative: Supply a table for functions
+        mode            singleValue;            // singleValue, ratingCurveTable, timeSeries or waterStorageTable 
+        data            0.25;                   // water level [m]. Alternative: Supply a table for functions
 
         // data     table  (
         //                (0   2.41)
         //                (100 2.41)
-        //          );                          // table for dependency between Q and h or between t and h or between V and h  
+        //          );                          // table for dependency between Q and h  or between t and h or between V and h  
 
         // MANDATORY FOR INBOUND FLOW:
         dynamicPressureCorrection  0;           // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
@@ -109,7 +109,7 @@ boundaryField
 
         data     table  (
                         (0    0.3)
-                        (0.01 0.8)
+                        (0.1  0.8)
                   );                            // table for dependency between Q and h or between t and h or between V and h  
 
         // MANDATORY FOR INBOUND FLOW:

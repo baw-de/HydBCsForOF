@@ -53,18 +53,18 @@
  )
     :
         mixedFvPatchScalarField(p, iF),
-        mode_(dict.lookupOrDefault<word>("mode", "sharpen")),
-        sharpen_(dict.lookupOrDefault<scalar>("sharpen",0.001))    ,
-        pressureThreshold_(dict.lookupOrDefault<scalar>("pressureThreshold",VGREAT)),
-        alphaLowerThreshold_(dict.lookupOrDefault<scalar>("alphaLowerThreshold",0.001)),    
-        alphaUpperThreshold_(dict.lookupOrDefault<scalar>("alphaUpperThreshold",0.999))    
+        mode_(dict.getOrDefault<word>("mode", "sharpen")),
+        sharpen_(dict.getOrDefault<scalar>("sharpen",0.001))    ,
+        pressureThreshold_(dict.getOrDefault<scalar>("pressureThreshold",VGREAT)),
+        alphaLowerThreshold_(dict.getOrDefault<scalar>("alphaLowerThreshold",0.001)),    
+        alphaUpperThreshold_(dict.getOrDefault<scalar>("alphaUpperThreshold",0.999))    
 {
     fvPatchField<scalar>::operator=(patchInternalField());
     //    refValue() = *this;
 
     // Backward compatible to old "refValue"
-    sharpen_=dict.lookupOrDefault<scalar>("refValue",sharpen_);
-    sharpen_=dict.lookupOrDefault<scalar>("sharpen",sharpen_);
+    sharpen_=dict.getOrDefault<scalar>("refValue",sharpen_);
+    sharpen_=dict.getOrDefault<scalar>("sharpen",sharpen_);
 
     refValue() = patchInternalField();
     refGrad()=0.0;
@@ -176,11 +176,10 @@ void Foam::flowRateWaterAlphaFvPatchScalarField::updateCoeffs()
 void Foam::flowRateWaterAlphaFvPatchScalarField::write(Ostream& os) const
 {
     fvPatchScalarField::write(os);
-    // os.writeKeyword("mode") << mode_ << token::END_STATEMENT << nl;
-    os.writeKeyword("sharpen") << sharpen_ << token::END_STATEMENT << nl;
-    os.writeKeyword("pressureThreshold") << pressureThreshold_ << token::END_STATEMENT << nl;
-    os.writeKeyword("alphaLowerThreshold") << alphaLowerThreshold_ << token::END_STATEMENT << nl;
-    os.writeKeyword("alphaUpperThreshold") << alphaUpperThreshold_ << token::END_STATEMENT << nl;
+    os.writeEntry("sharpen", sharpen_);
+    os.writeEntry("pressureThreshold", pressureThreshold_);
+    os.writeEntry("alphaLowerThreshold", alphaLowerThreshold_);
+    os.writeEntry("alphaUpperThreshold", alphaUpperThreshold_);
     writeEntry("value", os);
 }
 

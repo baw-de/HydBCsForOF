@@ -34,43 +34,38 @@ boundaryField
     bottom
     {
         type            nutkRoughWallFunction;
-        Ks              uniform .00000100000000000000;  // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Ks              uniform 0.005;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
         Cs              uniform 0.5;    // roughness constant, default 0.5
         value           uniform 0.0;
     }
-    
     mywalls
     {
         type            nutkRoughWallFunction;
-        Ks              uniform .00000100000000000000;  // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Ks              uniform 0.005;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
         Cs              uniform 0.5;    // roughness constant, default 0.5
         value           uniform 0.0;
     }
-    
     frontplate
     {
         type            nutkRoughWallFunction;
-        Ks              uniform .00000100000000000000;  // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Ks              uniform 0.001;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
         Cs              uniform 0.5;    // roughness constant, default 0.5
         value           uniform 0.0;
     }
-    
     crown
     {
         type            nutkRoughWallFunction;
-        Ks              uniform .00000100000000000000;  // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Ks              uniform 0.001;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
         Cs              uniform 0.5;    // roughness constant, default 0.5
         value           uniform 0.0;
     }
-    
     backplate
     {
         type            nutkRoughWallFunction;
-        Ks              uniform .00000100000000000000;  // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Ks              uniform 0.001;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
         Cs              uniform 0.5;    // roughness constant, default 0.5
         value           uniform 0.0;
     }
-    
     ventilation
     {
         type            calculated;
