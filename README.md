@@ -86,6 +86,11 @@ Take care: This is just a basic setup. Check i.e. in the files in 0/bak the prov
 
 ## History of changes
 
+
+### 2026-08-14
+- Changed several deprecated function calls to newer versions
+- Update some numerical parameters to be faster on good grids, but less stable on bad grids
+
 ### 2026-08-07
 - Corrected access to "stored water" in waterLevel_alpha_prghFvPatchScalarField.C thanks to bugfix by Lifang Zhang
   
