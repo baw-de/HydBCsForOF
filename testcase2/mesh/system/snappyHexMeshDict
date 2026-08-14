@@ -101,7 +101,7 @@ castellatedMeshControls
         mywalls      {level (1 1);}   // Refine one time on the surfaces and one time at edges
         bottom       {level (1 1);}   // Refine one time on the surfaces and one time at edges  
         frontplate   {level (1 1);}   // Refine one time on the surfaces and one time at edges
-        crown        {level (1 1);}   // Refine one time on the surfaces and one time at edges
+        crown        {level (1 4);}   // Refine one time on the surfaces and four times at edges
         backplate    {level (1 2);}   // Refine one time on the surfaces and two times at edges
         ventilation  {level (2 2);}   // Refine two times on the surfaces and two times at edges
  

@@ -3,4 +3,4 @@ flowRateWater/flowRateWaterVelocity/flowRateWaterVelocityFvPatchVectorField.C
 
 waterLevel_alpha_prgh/waterLevel_alpha_prghFvPatchScalarField.C
 
-LIB = $(FOAM_USER_LIBBIN)/lib_BAW_public_BCs_v2412_20250905
+LIB = $(FOAM_USER_LIBBIN)/lib_BAW_public_BCs_v2412_20260813

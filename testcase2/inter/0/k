@@ -37,23 +37,28 @@ boundaryField
     
     bottom
     {
-        type            zeroGradient;
+        type            kqRWallFunction;
+        value           uniform 0.;
     }
     mywalls
     {
-        type            zeroGradient;
+        type            kqRWallFunction;
+        value           uniform 0.;
     }
     frontplate
     {
-        type            zeroGradient;
+        type            kqRWallFunction;
+        value           uniform 0.;
     }
     crown
     {
-        type            zeroGradient;
+        type            kqRWallFunction;
+        value           uniform 0.;
     }
     backplate
     {
-        type            zeroGradient;
+        type            kqRWallFunction;
+        value           uniform 0.;
     }
     ventilation
     {

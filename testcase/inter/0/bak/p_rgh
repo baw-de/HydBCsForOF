@@ -49,7 +49,7 @@ boundaryField
         // Set pressure level: 
         // refPoint (123. 345. 567.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
         // refValue 0.;                         // Pressure value at refPoint
-        
+
         value           uniform 0.;             // Initial value
     }
 

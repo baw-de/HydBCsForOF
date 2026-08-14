@@ -74,16 +74,16 @@ waterLevel_alpha_prghFvPatchScalarField
 )
 :
     fixedValueFvPatchScalarField(p, iF),
-    mode_(dict.lookupOrDefault<word>("mode", "ratingCurveTable")),
+    mode_(dict.getOrDefault<word>("mode", "ratingCurveTable")),
     my_data_(Function1<scalar>::New("data", dict)),
-    flowRateMultiplier_(dict.lookupOrDefault<scalar>("flowRateMultiplier", 1.0)),
-    refValue_(dict.lookupOrDefault<scalar>("refValue", 0.0)),
-    refPoint_(dict.lookupOrDefault<vector>("refPoint", vector::zero)),
-    dynamicPressureCorrectionRelaxationTime_(dict.lookupOrDefault<scalar>("dynamicPressureCorrectionRelaxationTime", -1.0)),
-    dynamicPressureCorrection_(dict.lookupOrDefault<scalar>("dynamicPressureCorrection", 1.0)),
+    flowRateMultiplier_(dict.getOrDefault<scalar>("flowRateMultiplier", 1.0)),
+    refValue_(dict.getOrDefault<scalar>("refValue", 0.0)),
+    refPoint_(dict.getOrDefault<vector>("refPoint", vector::zero)),
+    dynamicPressureCorrectionRelaxationTime_(dict.getOrDefault<scalar>("dynamicPressureCorrectionRelaxationTime", -1.0)),
+    dynamicPressureCorrection_(dict.getOrDefault<scalar>("dynamicPressureCorrection", 1.0)),
     lastTime_(0.0),
-    waterStored_(dict.lookupOrDefault<scalar>("waterStored", 0.0)),
-    mean_water_dynamic_pressure_old_(dict.lookupOrDefault<scalar>("meanWaterDynamicPressureOld", 0.0))
+    waterStored_(dict.getOrDefault<scalar>("waterStored", 0.0)),
+    mean_water_dynamic_pressure_old_(dict.getOrDefault<scalar>("meanWaterDynamicPressureOld", 0.0))
     
 {
    
@@ -512,7 +512,7 @@ Info << "Patch " << i << ": " << mesh.boundary()[i].name() << " with "
        
     }
     else {
-      FatalErrorIn ("waterLevel_alpha_p_rgh")
+      FatalErrorIn ("waterLevel_alpha_prgh")
               << " You should not use this boundary condition with field" << this->internalField().name()
               << " on patch " << this->patch().name()
               << " in file "  << this->internalField().objectPath()
@@ -530,21 +530,21 @@ void Foam::waterLevel_alpha_prghFvPatchScalarField::write
 ) const
 {
     fvPatchScalarField::write(os);
-    os.writeKeyword("mode") << mode_ << token::END_STATEMENT << nl;
+    os.writeEntry("mode", mode_);
     my_data_->writeData(os);
-    os.writeKeyword("flowRateMultiplier") << flowRateMultiplier_ << token::END_STATEMENT << nl;
+    os.writeEntry("flowRateMultiplier", flowRateMultiplier_);
 
     if (mode_=="waterStorageTable")  {          
-       os.writeKeyword("waterStored") << waterStored_ << token::END_STATEMENT << nl;
+       os.writeEntry("waterStored", waterStored_);
     } 
 
     
     if (this->internalField().name()=="p_rgh") {
-      os.writeKeyword("dynamicPressureCorrection") << dynamicPressureCorrection_ << token::END_STATEMENT << nl;
-      os.writeKeyword("dynamicPressureCorrectionRelaxationTime") << dynamicPressureCorrectionRelaxationTime_  << token::END_STATEMENT << nl;
-      os.writeKeyword("refPoint") << refPoint_ << token::END_STATEMENT << nl;
-      os.writeKeyword("refValue") << refValue_ << token::END_STATEMENT << nl;
-      os.writeKeyword("meanWaterDynamicPressureOld") << mean_water_dynamic_pressure_old_ << token::END_STATEMENT << nl;
+      os.writeEntry("dynamicPressureCorrection", dynamicPressureCorrection_);
+      os.writeEntry("dynamicPressureCorrectionRelaxationTime", dynamicPressureCorrectionRelaxationTime_);
+      os.writeEntry("refPoint", refPoint_);
+      os.writeEntry("refValue", refValue_);
+      os.writeEntry("meanWaterDynamicPressureOld", mean_water_dynamic_pressure_old_);
     }
     
     writeEntry("value", os);

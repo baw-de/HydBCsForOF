@@ -47,23 +47,28 @@ boundaryField
     }
     bottom
     {
-        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
     }
     mywalls
     {
-        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
     }
     frontplate
     {
-        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
     }
     crown
     {
-        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
     }
     backplate
     {
-        type            slip;
+        type            fixedValue;
+        value           uniform (0 0 0);
     }
     ventilation
     {

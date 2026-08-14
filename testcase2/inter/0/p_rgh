@@ -30,7 +30,7 @@ boundaryField
         //          );                          // table for dependency between Q and h  or between t and h or between V and h  
 
         // MANDATORY FOR INBOUND FLOW:
-        // dynamicPressureCorrection  0;        // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
+        dynamicPressureCorrection  0;           // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
                                                 // 1: Apply dynamic pressure correction, to better match the desired water level. Can lead to long waves.
         // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time for dynamic pressure correction to dampen waves (default: endTime/5)
                                                        // Recommended: Set to Eigenperiod of long waves 2*L/sqrt(g*h)
@@ -41,8 +41,8 @@ boundaryField
         // flowRateMultiplier    1.0;           // Multiply Q with flowRateMultiplier before evaluating h 
 
         // Set pressure level: 
-        // refPoint (123. 345. 567.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
-        // refValue 0.;                         // Pressure value at refPoint
+        // refPoint (123. 456. 789.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
+        // refValue 0.;                         // Pressure value for p field at refPoint
         
         value           uniform 1.;             // Initial value
     }
@@ -59,7 +59,7 @@ boundaryField
         //          );                          // table for dependency between Q and h  or between t and h or between V and h  
 
         // MANDATORY FOR INBOUND FLOW:
-        // dynamicPressureCorrection  0;        // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
+        dynamicPressureCorrection  0;           // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
                                                 // 1: Apply dynamic pressure correction, to better match the desired water level. Can lead to long waves.
         // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time for dynamic pressure correction to dampen waves (default: endTime/5)
                                                        // Recommended: Set to Eigenperiod of long waves 2*L/sqrt(g*h)
@@ -70,7 +70,7 @@ boundaryField
         // flowRateMultiplier    1.0;           // Multiply Q with flowRateMultiplier before evaluating h 
 
         // Set pressure level: 
-        // refPoint (123. 345. 567.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
+        // refPoint (123. 456. 789.);           // Point in the air, where pressure value is to be prescribed. Defaults to highest point.
         // refValue 0.;                         // Pressure value at refPoint
         
         value           uniform 1.;             // Initial value
@@ -104,16 +104,16 @@ boundaryField
     ventilation
     {
         type            waterLevel_alpha_prgh;
-        mode            singleValue;            // singleValue, ratingCurveTable, timeSeries or waterStorageTable 
-        data            0.25;                   // water level [m]. Alternative: Supply a table for functions
+        mode            waterStorageTable;      // singleValue, ratingCurveTable, timeSeries or waterStorageTable  
+        // data            0;                   // water level [m]. Alternative: Supply a table for functions
 
-        // data     table  (
-        //                (0   2.41)
-        //                (100 2.41)
-        //          );                          // table for dependency between Q and h  or between t and h or between V and h  
+        data     table  (
+                        (0    0.3)
+                        (0.1  0.8)
+                  );                            // table for dependency between Q and h or between t and h or between V and h  
 
         // MANDATORY FOR INBOUND FLOW:
-        // dynamicPressureCorrection  0;        // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
+        dynamicPressureCorrection  0;           // 0: Water level will not be exact. Level can drop down by up to ~|velocity_height|. Prescribed value is no longer water level, but roughly energy height.
                                                 // 1: Apply dynamic pressure correction, to better match the desired water level. Can lead to long waves.
         // dynamicPressureCorrectionRelaxationTime 99; // Relaxation time for dynamic pressure correction to dampen waves (default: endTime/5)
                                                        // Recommended: Set to Eigenperiod of long waves 2*L/sqrt(g*h)

@@ -33,28 +33,38 @@ boundaryField
     
     bottom
     {
-        type            calculated;
-        value           uniform 0;
+        type            nutkRoughWallFunction;
+        Ks              uniform 0.005;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Cs              uniform 0.5;    // roughness constant, default 0.5
+        value           uniform 0.0;
     }
     mywalls
     {
-        type            calculated;
-        value           uniform 0;
+        type            nutkRoughWallFunction;
+        Ks              uniform 0.005;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Cs              uniform 0.5;    // roughness constant, default 0.5
+        value           uniform 0.0;
     }
     frontplate
     {
-        type            calculated;
-        value           uniform 0;
+        type            nutkRoughWallFunction;
+        Ks              uniform 0.001;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Cs              uniform 0.5;    // roughness constant, default 0.5
+        value           uniform 0.0;
     }
     crown
     {
-        type            calculated;
-        value           uniform 0;
+        type            nutkRoughWallFunction;
+        Ks              uniform 0.001;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Cs              uniform 0.5;    // roughness constant, default 0.5
+        value           uniform 0.0;
     }
     backplate
     {
-        type            calculated;
-        value           uniform 0;
+        type            nutkRoughWallFunction;
+        Ks              uniform 0.001;   // roughness height = sand-grain roughness (0 for smooth walls) [m]
+        Cs              uniform 0.5;    // roughness constant, default 0.5
+        value           uniform 0.0;
     }
     ventilation
     {
