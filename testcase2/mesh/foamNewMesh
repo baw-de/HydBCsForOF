@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## Trap floating point errors? true=trap, false=ignore
+export FOAM_SIGFPE=false  
+
 ## Cleanup
 foamCleanPolyMesh
 foamListTimes -rm
